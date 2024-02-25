@@ -5,7 +5,7 @@ import { BrunoComponent } from './components/apresentacao/bruno/bruno.component'
 
 const routes: Routes = [
   { path: 'andressa', component: AndressaComponent },
-  { path: 'bruno', component: BrunoComponent },
+  { path: '', component: BrunoComponent },
 
 ];
 

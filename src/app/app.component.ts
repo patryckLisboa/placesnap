@@ -8,14 +8,4 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'placesnap';
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['id']) {
-        this.router.navigate([`/${params['id']}`]);
-      }
-    });
-  }
 }

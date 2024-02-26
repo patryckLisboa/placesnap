@@ -2,6 +2,7 @@
 
 body {
   margin: 0px;
+  -webkit-tap-highlight-color: transparent;
 }
 ::-webkit-scrollbar {
   width: 0.01px; /* Defina a largura da barra de rolagem como 0 */
@@ -10,3 +11,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: transparent; /* Cor do "polegar" (barra de rolagem) */
 }
+

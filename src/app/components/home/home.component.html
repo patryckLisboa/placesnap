@@ -1,16 +1,126 @@
-<div class="body">
-  <div class="login-container">
+<div class="body" [formGroup]="loginFormGroup">
+  <div class="login-container" *ngIf="!authService.user">
+    <div class="person">
+      <fa-icon [icon]="faUserAlt"></fa-icon>
+    </div>
     <h2>Login</h2>
-    <form >
+    <div>
       <div class="input-group">
-        <label for="username">Usuário:</label>
-        <input  [(ngModel)]="username" type="text" id="username" name="username" required />
+        <input
+          placeholder="Email"
+          formControlName="emailFormControl"
+          type="email"
+          id="email"
+          name="email"
+          maxlength="60"
+          autocomplete="email"
+        />
+        <div
+          *ngIf="
+            loginFormGroup.get('emailFormControl').hasError('required') &&
+            loginFormGroup.get('emailFormControl').touched
+          "
+          class="error-message"
+        >
+          Email é obrigatório.
+        </div>
+        <div
+          *ngIf="
+            loginFormGroup.get('emailFormControl').hasError('email') &&
+            !loginFormGroup.get('emailFormControl').hasError('required') &&
+            loginFormGroup.get('emailFormControl').touched
+          "
+          class="error-message"
+        >
+          Email inválido.
+        </div>
       </div>
       <div class="input-group">
-        <label for="password">Senha:</label>
-        <input [(ngModel)]="password" type="password" id="password" name="password" required />
+        <input
+          placeholder="Senha"
+          formControlName="passwordFormControl"
+          type="password"
+          id="password"
+          name="password"
+          maxlength="15"
+          autocomplete="current-password"
+        />
+        <div
+          *ngIf="
+            loginFormGroup.get('passwordFormControl').hasError('required') &&
+            loginFormGroup.get('passwordFormControl').touched
+          "
+          class="error-message"
+        >
+          Senha é obrigatória.
+        </div>
+        <div
+          *ngIf="
+            loginFormGroup.get('passwordFormControl').hasError('minlength') &&
+            loginFormGroup.get('passwordFormControl').touched
+          "
+          class="error-message"
+        >
+          Mínimo 6 caracteres.
+        </div>
       </div>
-      <button type="submit" (click)="login()">Entrar</button>
-    </form>
+
+      <div class="buttons">
+        <button
+          [disabled]="!loginFormGroup.valid"
+          class="button"
+          (click)="emailSignin()"
+          [ngClass]="{ 'disabled-button': !loginFormGroup.valid }"
+        >
+          Login <fa-icon [icon]="faSignInAlt"></fa-icon>
+        </button>
+        <div class="button google" (click)="authService.googleSignin()">
+          <img
+            src="../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="authService.user">
+    Logged as <b>{{ authService.user.email }}</b> |
+    <button (click)="authService.signOut()">Sair</button>
+    <hr />
+    <br>
+    <h2>FireBase List</h2>
+    <hr />
+    <div class="input-group">
+      <input
+        placeholder="Nome"
+        formControlName="nome"
+        type="name"
+        maxlength="60"
+        autocomplete="name"
+      />
+    </div>
+    <hr />
+    <button class="button" (click)="addCliente()">
+      Inserir nome de usuário <fa-icon [icon]="faSignInAlt"></fa-icon>
+    </button>
+    <hr />
+    <table border="1">
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Telefone1</th>
+        <th>Telefone2</th>
+      </tr>
+      <tr *ngFor="let usuario of list | async">
+        <td [title]="['chave:  ' + usuario.key]">{{usuario.nome}}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.telefone1 }}</td>
+        <td>{{ usuario.telefone2 }}</td>
+        <td>
+          <button (click)="removeCliente(usuario.key)">X</button>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
+<button (click)="teste()">testar</button>

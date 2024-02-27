@@ -10,17 +10,13 @@
 
 .evolutions-container {
   position: absolute;
-  flex-direction: column;
-  display: flex;
   height: 100%;
   width: 100%;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
 }
 
 .evolutions-container .evolutions {
-  transform: translate3d(0, 0, 0);
+  text-align: center;
 }
 
 .evolutions-container .evolutions img {
@@ -33,7 +29,7 @@
 
 @media (max-width: 550px) {
   .gap-title {
-    height: 200px;
+    height: 300px;
   }
 
   .title-container {
@@ -60,17 +56,9 @@
 
   .evolutions-container {
     position: absolute;
-    display: flex;
-    flex-direction: column;
     height: 100%;
     width: 100%;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
-  }
-
-  .evolutions-container .evolutions {
-    transform: translate3d(0, 0, 0);
   }
 
   .evolutions-container .evolutions img {
@@ -81,10 +69,8 @@
 @media (max-width: 750px) {
   .evolutions-container {
     position: absolute;
-    display: flex;
     height: 100%;
     width: 100%;
-    justify-content: center;
     overflow: hidden;
   }
 

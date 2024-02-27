@@ -18,12 +18,8 @@
 }
 
 .expanded-image {
-  max-width: 99%;
-}
-
-.expanded-image-container {
-  display: flex;
-  justify-content: center;
+  height: 100%;
+  width: unset;
 }
 
 .carousel-item img:hover {
@@ -89,27 +85,9 @@
     display: block;
     height: 350px;
   }
-  .swiper-button-next,
-  .swiper-button-prev {
-    background-color: #3F3FA4;
-    width: 40px;
-    color: #D3C0F8;
-    height: 40px;
-    border-radius: 100%;
-    opacity: 50%;
-  }
-  .swiper-pagination-bullet {
-    background-color: blue;
-    width: 10px;
-    height: 10px;
-  }
-  .swiper-pagination-horizontal {
-    bottom: 0px;
-  }
   .swiper-button-next:after,
   .swiper-button-prev:after {
-    font-size: 15px;
-    font-weight: bold;
+    display: none;
   }
 }
 
@@ -117,5 +95,10 @@
   .swiper-slide {
     width: 240px;
     height: 240px;
+  }
+
+  .expanded-image {
+    width: 100%;
+    height: unset;
   }
 }

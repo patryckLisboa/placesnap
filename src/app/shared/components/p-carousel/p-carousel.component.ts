@@ -24,6 +24,26 @@ export class PCarouselComponent {
     slideShadows: true,
   };
 
+  swiperOptions: SwiperOptions = {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    pagination: {
+      el: '.swiper-pagination', // Seletor CSS para o elemento da paginação
+      clickable: true, // Permite clicar nos botões de paginação para navegar pelos slides
+      dynamicBullets: true, // Atualiza o número de balas dinamicamente à medida que os slides mudam
+    },
+    navigation: true,
+    coverflowEffect: {
+      rotate: 30,
+      stretch: 0,
+      depth: window.innerWidth < 750 ? 300 : 0,
+      modifier: 1,
+      slideShadows: true,
+    },
+  };
+
   ngAfterViewInit() {
     setTimeout(() => (this.loadingPage = false), 0);
   }

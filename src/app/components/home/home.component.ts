@@ -18,7 +18,7 @@ import {
 } from '@angular/fire/compat/database';
 
 export interface UsuarioDB {
-  key: string;
+  id: string;
   email: string;
   nome_login: string;
   nome: string;
@@ -26,6 +26,13 @@ export interface UsuarioDB {
   telefone2: string;
   nivel_permissao: number;
 }
+
+export interface CompraDB {
+  id: string;
+  dataefetivacao: Date;
+  usuario: UsuarioDB;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -52,20 +59,63 @@ export class HomeComponent {
     telefone2: new FormControl(null),
   });
 
-  listRef: any;
-  list: Observable<UsuarioDB[]>;
+  comprasRef: any;
+  compras: Observable<CompraDB[]> = new Observable();
 
   constructor(
     public authService: AuthService,
     private _snackBar: MatSnackBar,
     private dataBase: AngularFireDatabase
-  ) {
-    this.listRef = dataBase.list('list');
-    this.list = this.listRef
+  ) {}
+
+  ngAfterViewInit() {
+    setInterval(() => {
+      const user = this.authService.user;
+      if (user) this.getComprasByUsuario(); // Chame sua função com o valor do usuário
+    }, 500); // Intervalo de meio segundo (500 milissegundos)
+  }
+
+  // getCompras(){
+  //   this.comprasRef = this.dataBase.list('compras');
+  //   this.compras = this.comprasRef
+  //     .snapshotChanges()
+  //     .pipe(
+  //       map((changes: SnapshotAction<CompraDB>[]) =>
+  //         changes.map((c) => ({ id: c.payload.key, ...c.payload.val() }))
+  //       )
+  //     );
+  // }
+
+  async getComprasByUsuario() {
+    const usuario: any = await this.authService.getUsuarioCurrent();
+
+    this.compras.subscribe((compras: CompraDB[]) => {
+      const compraEncontrada = compras.some(
+        (compra) => compra.usuario.id === usuario.id
+      );
+
+      if (!compraEncontrada) {
+        this.listarComprasByUsuario(usuario);
+      }
+    });
+    if (!this.comprasRef) {
+      this.listarComprasByUsuario(usuario);
+    }
+  }
+
+  listarComprasByUsuario(usuario: any) {
+    if(!usuario) return
+    if(!this.authService.user) return
+
+    this.comprasRef = this.dataBase.list('compras', (ref) =>
+      ref.orderByChild('usuario/id').equalTo(usuario.id)
+    );
+
+    this.compras = this.comprasRef
       .snapshotChanges()
       .pipe(
-        map((changes: SnapshotAction<UsuarioDB>[]) =>
-          changes.map((c) => ({ key: c.payload.key, ...c.payload.val() }))
+        map((changes: SnapshotAction<CompraDB>[]) =>
+          changes.map((c) => ({ id: c.payload.key, ...c.payload.val() }))
         )
       );
   }
@@ -83,30 +133,46 @@ export class HomeComponent {
       this.loginFormGroup.get('emailFormControl').value,
       this.loginFormGroup.get('passwordFormControl').value
     );
+    this.getComprasByUsuario();
+
     if (this.authService.error) {
-      this.openSnackBar(this.authService.error);
+      return this.openSnackBar(this.authService.error);
     }
   }
 
-  addCliente() {
-    console.log('teet');
-    this.listRef.push({
-      email: this.loginFormGroup.get('emailFormControl').value,
-      nome_login: this.loginFormGroup.get('emailFormControl').value,
-      nome: this.loginFormGroup.get('nome').value,
-      telefone1: '62991233755',
-      telefone2: '62991233753',
-      nivel_permissao: 1,
+  async googleSignin() {
+    await this.authService.googleSignin();
+    this.getComprasByUsuario();
+
+    if (this.authService.error) {
+      return this.openSnackBar(this.authService.error);
+    }
+  }
+
+  async addCompra() {
+    const usuario: any = await this.authService.getUsuarioCurrent();
+
+    this.comprasRef.push({
+      dataefetivacao: new Date().toJSON(),
+      usuario: usuario,
+      teste: 'estdaffd',
     });
   }
 
-  removeCliente(key: string) {
-    this.listRef.remove(key);
+  removeCompra(id: string) {
+    this.comprasRef.remove(id);
+  }
+
+  logOut() {
+    this.loginFormGroup.reset();
+    this.comprasRef = null;
+    this.compras = new Observable<CompraDB[]>();
+    this.authService.signOut();
   }
 
   teste() {
     console.log(this.authService.user);
-    this.list.forEach((element) => {
+    this.compras.forEach((element) => {
       console.log(element);
     });
 

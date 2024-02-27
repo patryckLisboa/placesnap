@@ -6,15 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./andressa.component.scss'],
 })
 export class AndressaComponent {
-  expanded = false;
-  navList = [
-    'sobre mim',
-    'meus resultados',
-    'Atendimento',
-    'Grupo do WhatsApp',
-  ];
-
-  toggleMobileNav(){
-    this.expanded = !this.expanded;
-  }
 }

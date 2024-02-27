@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
-import { AndressaComponent } from './components/apresentacao/andressa/andressa.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
 import { BrunoComponent } from './components/apresentacao/bruno/bruno.component';
@@ -23,11 +22,11 @@ import {
 import { environment } from '../environments/environment';
 import { AuthService } from './services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
+import { AndressaModule } from './components/apresentacao/andressa/andressa.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AndressaComponent,
     BrunoComponent,
     HomeComponent,
   ],
@@ -46,6 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatSnackBarLabel,
     MatSnackBarActions,
     MatSnackBarAction,
+    AndressaModule
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

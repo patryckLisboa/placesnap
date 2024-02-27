@@ -74,7 +74,7 @@
         >
           Login <fa-icon [icon]="faSignInAlt"></fa-icon>
         </button>
-        <div class="button google" (click)="authService.googleSignin()">
+        <div class="button google" (click)="googleSignin()">
           <img
             src="../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
             alt=""
@@ -85,7 +85,10 @@
   </div>
   <div *ngIf="authService.user">
     Logged as <b>{{ authService.user.email }}</b> |
-    <button (click)="authService.signOut()">Sair</button>
+    <button (click)="logOut()">Sair</button>
+    <button (click)="authService.deleteCurrentUser()">Deletar Conta</button>
+    <button (click)="authService.teste()">Teste</button>
+
     <hr />
     <br>
     <h2>FireBase List</h2>
@@ -100,24 +103,20 @@
       />
     </div>
     <hr />
-    <button class="button" (click)="addCliente()">
-      Inserir nome de usuário <fa-icon [icon]="faSignInAlt"></fa-icon>
+    <button class="button" (click)="addCompra()">
+      Inserir compra <fa-icon [icon]="faSignInAlt"></fa-icon>
     </button>
     <hr />
     <table border="1">
       <tr>
-        <th>Nome</th>
-        <th>E-mail</th>
-        <th>Telefone1</th>
-        <th>Telefone2</th>
+        <th>Usuario</th>
+        <th>Data Efetivação</th>
       </tr>
-      <tr *ngFor="let usuario of list | async">
-        <td [title]="['chave:  ' + usuario.key]">{{usuario.nome}}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.telefone1 }}</td>
-        <td>{{ usuario.telefone2 }}</td>
+      <tr *ngFor="let compra of compras | async">
+        <td [title]="['chave:  ' + compra.id]">{{compra.usuario.email}}</td>
+        <td>{{ compra.dataefetivacao }}</td>
         <td>
-          <button (click)="removeCliente(usuario.key)">X</button>
+          <button (click)="removeCompra(compra.id)">X</button>
         </td>
       </tr>
     </table>

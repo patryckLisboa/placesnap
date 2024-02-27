@@ -10,10 +10,12 @@
 
 .evolutions-container {
   position: absolute;
+  flex-direction: column;
   display: flex;
   height: 100%;
   width: 100%;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 

@@ -45,7 +45,7 @@ export class PCarouselComponent {
     },
     {
       index: 2,
-      src: '../../../../assets/img/andressa/evolutions/img (2).jpeg',
+      src: '../../../../assets/img/andressa/evolutions/img (2).jpg',
       description: '2 meses',
       expanded: false,
     },
@@ -177,7 +177,7 @@ export class PCarouselComponent {
     },
     {
       index: 24,
-      src: '../../../../assets/img/andressa/evolutions/img (24).jpeg',
+      src: '../../../../assets/img/andressa/evolutions/img (24).jpg',
       description: '4 meses',
       expanded: false,
     },
@@ -189,7 +189,7 @@ export class PCarouselComponent {
     },
     {
       index: 26,
-      src: '../../../../assets/img/andressa/evolutions/img (26).jpeg',
+      src: '../../../../assets/img/andressa/evolutions/img (26).jpg',
       description: '4 meses',
       expanded: false,
     },

@@ -8,13 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { AndressaComponent } from './andressa.component';
 import { FirstComponent } from './first/first.component';
 import { SecondComponent } from './second/second.component';
+import { PCarouselComponent } from '../../../shared/components/p-carousel/p-carousel.component';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
-  declarations: [
-    AndressaComponent,
-    FirstComponent,
-    SecondComponent
-  ],
+  declarations: [AndressaComponent, FirstComponent, SecondComponent, PCarouselComponent],
   imports: [
     BrowserModule,
     MatIconModule,
@@ -22,6 +20,7 @@ import { SecondComponent } from './second/second.component';
     ReactiveFormsModule,
     FontAwesomeModule,
     MatButtonModule,
+    SwiperModule
   ],
 })
 export class AndressaModule {}

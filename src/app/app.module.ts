@@ -25,11 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AndressaModule } from './components/apresentacao/andressa/andressa.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    BrunoComponent,
-    HomeComponent,
-  ],
+  declarations: [AppComponent, BrunoComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,7 +41,7 @@ import { AndressaModule } from './components/apresentacao/andressa/andressa.modu
     MatSnackBarLabel,
     MatSnackBarActions,
     MatSnackBarAction,
-    AndressaModule
+    AndressaModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

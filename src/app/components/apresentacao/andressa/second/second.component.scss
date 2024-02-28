@@ -5,6 +5,7 @@
 }
 
 .evolutions-container {
+  margin-top: -20px;
   position: absolute;
   width: 100%;
   overflow: hidden;
@@ -22,6 +23,9 @@
   display: none;
 }
 @media (max-width: 450px) {
+  .evolutions-container {
+    margin-top: -30px;
+  }
   .title-container .title {
     width: 355px !important;
   }

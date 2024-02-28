@@ -15,20 +15,19 @@
 
 .border-container .border .into-border {
   margin: 0 11px;
-  border: 1px solid #d3c0f8;
+  border: 1px solid #d3c0f84b;
   height: 435px;
 }
 
 .line {
   width: 85%;
   margin: auto;
-  border: 1px solid #d3c0f8;
+  border: 1px solid #d3c0f84b;
 }
 
 .body {
   overflow: hidden;
   width: 100%;
-  min-height: 550px;
   max-width: 1100px;
   margin: auto;
 }
@@ -101,6 +100,19 @@
 
 .espera-container .espera img {
   width: 400px;
+}
+
+.footer-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  padding: 15px 0 10px;
+  background: linear-gradient(to right, #31317e, #4f3088, #5b3a7e);
+}
+
+.footer-container .footer img {
+  width: 200px;
 }
 
 @media (max-width: 830px) {

@@ -22,7 +22,7 @@
 
 .border-container .border .into-border {
   margin: 0 11px;
-  border: 1px solid #d3c0f8;
+  border: 1px solid #d3c0f84b;
   border-bottom: none;
   height: 120px;
 }
@@ -30,7 +30,6 @@
 .body {
   overflow: hidden;
   width: 100%;
-  min-height: 550px;
   max-width: 1100px;
   margin: auto;
 }
@@ -73,7 +72,7 @@
 }
 
 .title-container {
-  padding-top: 20px;
+  padding-top: 15px;
   width: 100%;
   text-align: center;
   font-family: "Libre Baskerville";
@@ -90,14 +89,21 @@
 .content {
   padding-left: 50px;
   padding-right: 220px;
+  margin: 0px 11px;
   min-height: 323px;
   font-size: 18.4px;
   word-spacing: 2.5px; /* Altere o valor conforme necessário */
+  border: 1px solid #d3c0f84b;
+  border-top: none;
 }
 
 .content b {
   text-align: center;
   display: block;
+}
+
+.content p {
+  margin: 10px 0;
 }
 
 @media (max-width: 830px) {
@@ -134,6 +140,7 @@
     padding-right: 100px;
     font-size: 15px;
     word-spacing: 1.7px; /* Altere o valor conforme necessário */
+    margin: 0 7px;
   }
 
   .logo-container {

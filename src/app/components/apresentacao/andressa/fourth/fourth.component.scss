@@ -17,6 +17,8 @@
   margin: 0 11px;
   border: 1px solid #d3c0f84b;
   height: 435px;
+  border-top-left-radius: 30px;
+
 }
 
 .border-container .border .into-border img {
@@ -48,6 +50,7 @@
 .logo-container .logo img {
   width: 250px;
   transform: translateX(-15px);
+  border-bottom-right-radius: 75%;
 }
 
 .wpp-container {

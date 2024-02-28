@@ -59,7 +59,7 @@
   width: 258px;
   overflow: hidden;
   height: 460px;
-
+  border-bottom-left-radius: 100%;
 }
 .background-container .background img {
   width: 300px;
@@ -91,11 +91,12 @@
   padding-left: 50px;
   padding-right: 220px;
   margin: 0px 11px;
-  min-height: 323px;
+  min-height: 336px;
   font-size: 18.4px;
   word-spacing: 2.5px; /* Altere o valor conforme necessário */
   border: 1px solid #d3c0f84b;
   border-top: none;
+  border-bottom-left-radius: 30px;
 }
 
 .content b {
@@ -142,6 +143,7 @@
     font-size: 15px;
     word-spacing: 1.7px; /* Altere o valor conforme necessário */
     margin: 0 7px;
+    min-height: 336px;
   }
 
   .logo-container {

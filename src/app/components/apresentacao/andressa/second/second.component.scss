@@ -61,12 +61,14 @@
   }
 
   .title-container .title {
-    transform: translate3d(10px, 10px, 0);
-    border-bottom: 3px solid #d3c0f87c;
+    transform: translate3d(25px, 10px, 0);
     width: 455px;
   }
 
   .title-container .title img {
+    border-bottom: 3px solid #d3c0f87c;
+    border-radius: 5%;
+
     width: 400px;
   }
 

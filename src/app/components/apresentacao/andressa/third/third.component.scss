@@ -1,0 +1,163 @@
+@media (min-width: 1100px) {
+  .background-container {
+    display: unset !important;
+  }
+  .background-container .background {
+    transform: translateX(840px);
+  }
+}
+
+.border-container {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  max-width: 1100px;
+}
+
+.border-container .border {
+  width: 100%;
+  height: 100%;
+}
+
+.border-container .border .into-border {
+  margin: 0 11px;
+  border: 1px solid #d3c0f8;
+  border-bottom: none;
+  height: 120px;
+}
+
+.body {
+  overflow: hidden;
+  width: 100%;
+  min-height: 550px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.logo-container {
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  overflow: hidden;
+}
+
+.logo-container .logo img {
+  width: 250px;
+}
+
+.background-container {
+  position: absolute;
+  width: 100%;
+  max-width: 1100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.background-container .background {
+  width: 258px;
+  overflow: hidden;
+  height: 460px;
+
+}
+.background-container .background img {
+  width: 300px;
+}
+
+.texts-container {
+  width: 100%;
+  color: #d3c0f8;
+  position: relative;
+  z-index: 1;
+}
+
+.title-container {
+  padding-top: 20px;
+  width: 100%;
+  text-align: center;
+  font-family: "Libre Baskerville";
+}
+
+.title-container .title {
+  font-size: 40px;
+}
+
+.title-container .sub-title {
+  font-size: 23.4px;
+}
+
+.content {
+  padding-left: 50px;
+  padding-right: 220px;
+  min-height: 323px;
+  font-size: 18.4px;
+  word-spacing: 2.5px; /* Altere o valor conforme necessário */
+}
+
+.content b {
+  text-align: center;
+  display: block;
+}
+
+@media (max-width: 830px) {
+  .border-container .border .into-border {
+    height: 100px;
+  }
+  
+  .border-container .border .into-border {
+    margin: 0 7px;
+  }
+
+  .body {
+    min-height: 350px;
+  }
+
+  .title-container .title {
+    font-size: 27px;
+  }
+
+  .title-container .sub-title {
+    font-size: 20px;
+  }
+
+  .background-container .background {
+    width: 170px;
+    height: 300px;
+  }
+  .background-container .background img {
+    width: 200px;
+  }
+
+  .content {
+    padding-left: 25px;
+    padding-right: 100px;
+    font-size: 15px;
+    word-spacing: 1.7px; /* Altere o valor conforme necessário */
+  }
+
+  .logo-container {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .logo-container .logo img {
+    width: 150px;
+  }
+}
+@media (max-width: 430px) {
+  .title-container .title {
+    font-size: 20px;
+  }
+
+  .title-container .sub-title {
+    font-size: 17px;
+  }
+
+  .content {
+    font-size: 13px;
+    word-spacing: 1.3px; /* Altere o valor conforme necessário */
+  }
+}

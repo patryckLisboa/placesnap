@@ -10,9 +10,18 @@ import { FirstComponent } from './first/first.component';
 import { SecondComponent } from './second/second.component';
 import { PCarouselComponent } from '../../../shared/components/p-carousel/p-carousel.component';
 import { SwiperModule } from 'swiper/angular';
+import { ThirdComponent } from './third/third.component';
+import { FourthComponent } from './fourth/fourth.component';
 
 @NgModule({
-  declarations: [AndressaComponent, FirstComponent, SecondComponent, PCarouselComponent],
+  declarations: [
+    AndressaComponent,
+    FirstComponent,
+    SecondComponent,
+    PCarouselComponent,
+    ThirdComponent,
+    FourthComponent
+  ],
   imports: [
     BrowserModule,
     MatIconModule,
@@ -20,7 +29,7 @@ import { SwiperModule } from 'swiper/angular';
     ReactiveFormsModule,
     FontAwesomeModule,
     MatButtonModule,
-    SwiperModule
+    SwiperModule,
   ],
 })
 export class AndressaModule {}

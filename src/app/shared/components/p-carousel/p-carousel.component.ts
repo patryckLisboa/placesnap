@@ -1,10 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import Swiper from 'swiper';
-import { PaginationOptions } from 'swiper/types/modules/pagination';
 import { SwiperOptions } from 'swiper/types/swiper-options';
-// import SwiperCore, { Navigation, Pagination, EffectCoverflow } from 'swiper';
-import { SwiperComponent } from 'swiper/angular';
-// SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
 
 @Component({
   selector: 'app-p-carousel',
@@ -16,32 +11,13 @@ export class PCarouselComponent {
   imgIndex = 1;
   imgModalIndex = 0;
   loadingPage = true;
-  coverFlowEffect = {
-    rotate: 30,
-    stretch: 0,
-    depth: window.innerWidth < 750 ? 300 : 0,
-    modifier: 1,
-    slideShadows: true,
-  };
 
   swiperOptions: SwiperOptions = {
     effect: 'coverflow',
     grabCursor: true,
     centeredSlides: true,
     slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination', // Seletor CSS para o elemento da paginação
-      clickable: true, // Permite clicar nos botões de paginação para navegar pelos slides
-      dynamicBullets: true, // Atualiza o número de balas dinamicamente à medida que os slides mudam
-    },
-    navigation: true,
-    coverflowEffect: {
-      rotate: 30,
-      stretch: 0,
-      depth: window.innerWidth < 750 ? 300 : 0,
-      modifier: 1,
-      slideShadows: true,
-    },
+    initialSlide: 5,
   };
 
   ngAfterViewInit() {
@@ -63,16 +39,22 @@ export class PCarouselComponent {
       description: '6 meses',
       expanded: false,
     },
+    // {
+    //   index: 2,
+    //   src: '../../../../assets/img/andressa/evolutions/img (2).jpg',
+    //   description: '2 meses',
+    //   expanded: false,
+    // },
     {
       index: 2,
       src: '../../../../assets/img/andressa/evolutions/img (2).jpg',
-      description: '2 meses',
+      description: '4 meses',
       expanded: false,
     },
     {
       index: 3,
       src: '../../../../assets/img/andressa/evolutions/img (3).jpeg',
-      description: '3 meses',
+      description: '4 meses',
       expanded: false,
     },
     {
@@ -149,8 +131,8 @@ export class PCarouselComponent {
     },
     {
       index: 16,
-      src: '../../../../assets/img/andressa/evolutions/img (16).jpeg',
-      description: '3 meses',
+      src: '../../../../assets/img/andressa/evolutions/img (16).jpg',
+      description: '4 meses',
       expanded: false,
     },
     {
@@ -161,8 +143,8 @@ export class PCarouselComponent {
     },
     {
       index: 18,
-      src: '../../../../assets/img/andressa/evolutions/img (18).jpeg',
-      description: '1 ano',
+      src: '../../../../assets/img/andressa/evolutions/img (17).jpeg',
+      description: '5 meses',
       expanded: false,
     },
     {
@@ -192,24 +174,6 @@ export class PCarouselComponent {
     {
       index: 23,
       src: '../../../../assets/img/andressa/evolutions/img (23).jpeg',
-      description: '4 meses',
-      expanded: false,
-    },
-    {
-      index: 24,
-      src: '../../../../assets/img/andressa/evolutions/img (24).jpg',
-      description: '4 meses',
-      expanded: false,
-    },
-    {
-      index: 25,
-      src: '../../../../assets/img/andressa/evolutions/img (25).jpeg',
-      description: '4 meses',
-      expanded: false,
-    },
-    {
-      index: 26,
-      src: '../../../../assets/img/andressa/evolutions/img (26).jpg',
       description: '4 meses',
       expanded: false,
     },

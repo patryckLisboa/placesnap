@@ -1,0 +1,132 @@
+.container{
+  margin-top: 20px;
+}
+.border-container {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  max-width: 1100px;
+}
+
+.border-container .border {
+  width: 100%;
+  height: 100%;
+}
+
+.border-container .border .into-border {
+  margin: 0 11px;
+  border: 1px solid #d3c0f8;
+  height: 435px;
+}
+
+.line {
+  width: 85%;
+  margin: auto;
+  border: 1px solid #d3c0f8;
+}
+
+.body {
+  overflow: hidden;
+  width: 100%;
+  min-height: 550px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.logo-container {
+  position: absolute;
+  width: 250px;
+}
+
+.logo-container .logo img {
+  width: 250px;
+  transform: translateX(-15px);
+}
+
+.wpp-container {
+  position: absolute;
+  width: 100%;
+  height: 300px;
+  max-width: 1100px;
+  margin-top: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.wpp-container .wpp {
+  width: 310px;
+  overflow: hidden;
+}
+.wpp-container .wpp img {
+  width: 300px;
+}
+
+.texts-container {
+  width: 100%;
+  color: #d3c0f8;
+  position: relative;
+  z-index: 1;
+}
+
+.title-container {
+  padding-top: 30px;
+  width: 100%;
+  text-align: center;
+  font-family: "Libre Baskerville";
+}
+
+.title-container .title {
+  font-size: 40px;
+}
+
+.content {
+  padding: 20px 30px 0 155px ;
+  min-height: 323px;
+  font-size: 18.4px;
+  word-spacing: 2.5px; 
+}
+
+.content b {
+  text-align: center;
+  display: block;
+}
+
+.espera-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.espera-container .espera img {
+  width: 400px;
+}
+
+@media (max-width: 830px) {
+  .title-container .title {
+    font-size: 27px;
+  }
+
+  .title-container .sub-title {
+    font-size: 20px;
+  }
+
+  .content {
+    font-size: 15px;
+    word-spacing: 1.7px; /* Altere o valor conforme necessário */
+  }
+}
+@media (max-width: 430px) {
+  .title-container .title {
+    font-size: 17px;
+  }
+  .content {
+    font-size: 13px;
+    word-spacing: 1.3px; /* Altere o valor conforme necessário */
+  }
+  .espera-container .espera img {
+    width: 350px;
+  }
+  
+}

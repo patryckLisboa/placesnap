@@ -126,9 +126,9 @@
   position: absolute;
   height: 295px;
   margin-top: -214px;
-  overflow: hidden;
   width: 97%;
   max-width: 700px;
+  overflow: hidden;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -216,7 +216,9 @@
 
   .espera-container .espera img {
     width: 320px;
-    padding-bottom: 3px;
+    padding-bottom: 25px;
+    clip-path: inset(20px 0px 60px 0px);
+
   }
   .border-container .border .into-border img {
     height: 110px;

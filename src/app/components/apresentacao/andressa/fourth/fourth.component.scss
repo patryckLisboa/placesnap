@@ -106,9 +106,10 @@
 
 .espera-container {
   width: 100%;
+  clip-path: inset(20px 0px 50px 0px);
   display: flex;
   justify-content: center;
-  margin-top: 70px;
+  margin-top: 80px;
 }
 
 .espera-container .espera img {
@@ -124,7 +125,7 @@
 .circle-container {
   position: absolute;
   height: 295px;
-  margin-top: -186px;
+  margin-top: -214px;
   overflow: hidden;
   width: 97%;
   max-width: 700px;
@@ -153,7 +154,7 @@
   width: 64%;
   max-width: 600px;
   /* transform: translateY(7px); */
-  top: 2px;
+  top: -6px;
   left: 114px;
   opacity: 0.4;
   position: relative;

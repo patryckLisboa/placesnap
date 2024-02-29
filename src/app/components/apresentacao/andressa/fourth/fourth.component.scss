@@ -117,6 +117,7 @@
 .circle-body{
   cursor: pointer;
   padding-bottom: 10px;
+  height: 20px;
 }
 
 .circle-container {
@@ -161,7 +162,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 25px;
   position: relative;
   padding: 15px 0 10px;
   z-index: 1;
@@ -253,3 +254,4 @@
     transform: translateX(0.5px) scaleY(1);
   }
 }
+

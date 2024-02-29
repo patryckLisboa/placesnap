@@ -230,6 +230,20 @@
     border-radius: 100%;
     opacity: 50%;
   }
+  .swiper-button-next:active,
+  .swiper-button-prev:active {
+    background-color: #ae85ffbe;
+  }
+  .swiper-button-next:hover,
+  .swiper-button-prev:hover {
+    background-color: #ae85ffbe;
+  }
+  .disabled{
+    background-color: silver;
+  }
+  .disabled:hover, .disabled:active{
+    background-color: silver;
+  }
   .swiper-pagination-bullet {
     background-color: #d3c0f8;
     width: 10px;

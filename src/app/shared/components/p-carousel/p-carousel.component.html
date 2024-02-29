@@ -27,11 +27,13 @@
       <img [src]="imagem.src" (click)="toggleImageModal(imagem.index - 1)" />
     </ng-template>
   </swiper>
-  <div
-    *ngIf="imagens[imgModalIndex].expanded"
-    class="expanded-image-container"
-    (click)="toggleImageModal()"
-  >
-    <img [src]="imagens[imgModalIndex].src" class="expanded-image" />
+  <div *ngIf="imagens[imgModalIndex].expanded" class="expanded-image-container">
+    <div (click)="toggleImageModal()">
+      <img [src]="getExpandedImgUrl()" class="expanded-image" />
+    </div>
+    <div [class]="prevClass" (click)="handleButton('prev')"></div>
+
+    <!-- Botão de Navegação para a Direita -->
+    <div [class]="nextClass" (click)="handleButton('next')"></div>
   </div>
 </div>

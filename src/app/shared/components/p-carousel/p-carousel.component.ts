@@ -2,7 +2,12 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { SwiperOptions } from 'swiper/types/swiper-options';
 import Swiper from 'swiper';
 import { PaginationOptions } from 'swiper/types/modules/pagination';
-import SwiperCore, { Navigation, Pagination, EffectCoverflow, Autoplay } from 'swiper';
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  EffectCoverflow,
+  Autoplay,
+} from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 SwiperCore.use([Navigation, Pagination, EffectCoverflow, Autoplay]);
 
@@ -36,6 +41,7 @@ export class PCarouselComponent {
   }
 
   toggleImageModal(index: any = null): any {
+    console.log("terste")
     if (index || index == 0) {
       this.imgModalIndex = index;
       return (this.imagens[index].expanded = true);
@@ -154,7 +160,7 @@ export class PCarouselComponent {
     },
     {
       index: 18,
-      src: '../../../../assets/img/andressa/evolutions/img (17).jpeg',
+      src: '../../../../assets/img/andressa/evolutions/img (18).jpeg',
       description: '5 meses',
       expanded: false,
     },
@@ -176,18 +182,6 @@ export class PCarouselComponent {
       description: '5 meses',
       expanded: false,
     },
-    {
-      index: 22,
-      src: '../../../../assets/img/andressa/evolutions/img (22).jpeg',
-      description: '8 meses',
-      expanded: false,
-    },
-    {
-      index: 23,
-      src: '../../../../assets/img/andressa/evolutions/img (23).jpeg',
-      description: '4 meses',
-      expanded: false,
-    },
   ];
 
   getImgDescription(): string {
@@ -196,5 +190,50 @@ export class PCarouselComponent {
 
   onSlideChange(event: any) {
     this.imgIndex = event[0].activeIndex;
+  }
+
+  getExpandedImgUrl() {
+    return this.imagens[this.imgModalIndex].src;
+  }
+
+  handleButton(prop = '') {
+    if (prop == 'next') {
+      if(this.imgModalIndex > 19){
+        // this.disabledNextClass(true)
+        // this.disabledPrevClass()
+        return
+      }
+      // this.disabledPrevClass()
+      // this.disabledNextClass()
+      this.imagens[this.imgModalIndex].expanded = false
+      this.imgModalIndex++;
+      return (this.imagens[this.imgModalIndex].expanded = true);
+    }
+    if(this.imgModalIndex < 1){
+      // this.disabledPrevClass(true)
+      // this.disabledNextClass()
+      return
+    }
+    // this.disabledNextClass()
+    // this.disabledPrevClass()
+    this.imagens[this.imgModalIndex].expanded = false
+    this.imgModalIndex--;
+    return (this.imagens[this.imgModalIndex].expanded = true);
+  }
+
+  prevClass = 'swiper-button-prev'
+  disabledPrevClass(desabilitado = false){
+    if(desabilitado){
+      return this.prevClass = 'swiper-button-prev disabled'
+    }
+    return this.prevClass = 'swiper-button-prev'
+  }
+
+  nextClass = 'swiper-button-next'
+  disabledNextClass(desabilitado = false){
+    if(desabilitado){
+      return this.nextClass = 'swiper-button-next disabled'
+    }
+    return this.nextClass = 'swiper-button-next'
   }
 }

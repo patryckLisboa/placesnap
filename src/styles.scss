@@ -26,7 +26,7 @@ body {
 @keyframes left-appear {
   from {
     opacity: 0;
-    transform: translateX(-20vw);
+    transform: translateX(-100px);
   }
   to {
     opacity: 1;
@@ -41,7 +41,7 @@ body {
   }
   to {
     opacity: 0;
-    transform: translateX(-20vw);
+    transform: translateX(-100px);
   }
 }
 
@@ -56,7 +56,7 @@ body {
 @keyframes right-appear {
   from {
     opacity: 0;
-    transform: translateX(20vw);
+    transform: translateX(100px);
   }
   to {
     opacity: 1;
@@ -71,7 +71,7 @@ body {
   }
   to {
     opacity: 0;
-    transform: translateX(20vw);
+    transform: translateX(100px);
   }
 }
 

@@ -16,9 +16,9 @@
 .border-container .border .into-border {
   margin: 0 11px;
   border: 1px solid #d3c0f84b;
-  height: 435px;
+  height: 300px;
   border-top-left-radius: 30px;
-
+  border-bottom: none;
 }
 
 .border-container .border .into-border img {
@@ -40,6 +40,7 @@
   width: 100%;
   max-width: 1100px;
   margin: auto;
+  margin-top: 30px;
 }
 
 .logo-container {
@@ -106,11 +107,54 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 70px;
 }
 
 .espera-container .espera img {
   width: 400px;
+}
+
+.circle-body{
+  cursor: pointer;
+  padding-bottom: 10px;
+}
+
+.circle-container {
+  position: absolute;
+  height: 295px;
+  margin-top: -186px;
+  overflow: hidden;
+  width: 97%;
+  max-width: 700px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.circle-container .circle {
+  border-radius: 172px;
+  height: 70%;
+  background-color: #8d80ff15;
+  border: 1px solid #8c80ff;
+  overflow: hidden;
+}
+
+.circle-container .circle:active {
+  background-color: #8d80ff33;
+}
+
+.circle-container .circle:hover {
+  background-color: #8d80ff33;
+}
+
+.circle-container .circle img {
+  width: 64%;
+  max-width: 600px;
+  /* transform: translateY(7px); */
+  top: 2px;
+  left: 114px;
+  opacity: 0.4;
+  position: relative;
 }
 
 .footer-container {
@@ -118,7 +162,9 @@
   display: flex;
   justify-content: center;
   margin-top: 50px;
+  position: relative;
   padding: 15px 0 10px;
+  z-index: 1;
   background: linear-gradient(to right, #31317e, #4f3088, #5b3a7e);
 }
 
@@ -143,7 +189,7 @@
   .border-container .border .into-border {
     margin: 0 7px;
   }
-  
+
   .border-container .border .into-border img {
     height: 120px;
   }
@@ -158,15 +204,16 @@
   .title-container .title {
     font-size: 17px;
   }
+
   .content {
     padding: 20px 30px 0 140px;
-
     font-size: 13px;
     word-spacing: 1.3px; /* Altere o valor conforme necessário */
   }
 
   .espera-container .espera img {
-    width: 350px;
+    width: 320px;
+    padding-bottom: 3px;
   }
   .border-container .border .into-border img {
     height: 110px;
@@ -174,10 +221,35 @@
 }
 
 @media (max-width: 400px) {
-
   .border-container .border .into-border img {
     height: 100px;
     right: 10px;
     bottom: 10px;
+  }
+}
+
+.clicked-elastic {
+  animation: elasticMotion 1s ease-out;
+}
+
+@keyframes elasticMotion {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(2px) scaleY(1.1);
+  }
+  30% {
+    transform: translateX(-2px) scaleY(0.9);
+  }
+  50% {
+    transform: translateX(1px) scaleY(1.05);
+  }
+  70% {
+    transform: translateX(-1px) scaleY(0.95);
+  }
+  90% {
+    transform: translateX(0.5px) scaleY(1);
   }
 }

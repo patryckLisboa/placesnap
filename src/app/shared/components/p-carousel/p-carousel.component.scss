@@ -60,9 +60,9 @@
   width: 100vw;
   height: 450px;
   text-align: -webkit-center;
-  .swiper {
-    transform: translateY(-35px);
-  }
+  // .swiper {
+  //   transform: translateY(-35px);
+  // }
   .swiper-wrapper{
     align-items: center;
     height: 400px;
@@ -98,5 +98,11 @@
   .expanded-image {
     width: 100%;
     height: unset;
+  }
+}
+
+@media (max-width: 350px){
+  .slider-effectCoverflow {
+    width: unset;
   }
 }

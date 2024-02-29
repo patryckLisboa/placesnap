@@ -229,11 +229,11 @@
 
 @media (max-width: 450px) {
   .social-container .social {
-    transform: translate3d(10px, 10px, 0);
+    transform: translate3d(10px, 20px, 0);
   }
 
   .social-container .social img {
-    width: 140px;
+    width: 110px;
   }
 
   .back-ground-container {
@@ -252,7 +252,7 @@
     }
     50% {
       border-bottom-left-radius: 30%;
-      height: 580px;
+      height: 570px;
       border-top-right-radius: 380px;
     }
   }

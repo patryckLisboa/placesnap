@@ -1,5 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { SwiperOptions } from 'swiper/types/swiper-options';
+import Swiper from 'swiper';
+import { PaginationOptions } from 'swiper/types/modules/pagination';
+import SwiperCore, { Navigation, Pagination, EffectCoverflow, Autoplay } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
+SwiperCore.use([Navigation, Pagination, EffectCoverflow, Autoplay]);
 
 @Component({
   selector: 'app-p-carousel',
@@ -11,14 +16,20 @@ export class PCarouselComponent {
   imgIndex = 1;
   imgModalIndex = 0;
   loadingPage = true;
-
-  swiperOptions: SwiperOptions = {
-    effect: 'coverflow',
-    grabCursor: true,
-    centeredSlides: true,
-    slidesPerView: 'auto',
-    initialSlide: 5,
+  coverFlowEffect = {
+    rotate: 30,
+    stretch: 0,
+    depth: 0,
+    modifier: 1,
+    slideShadows: true,
   };
+  // swiperOptions: SwiperOptions = {
+  //   effect: 'coverflow',
+  //   grabCursor: true,
+  //   centeredSlides: true,
+  //   slidesPerView: 'auto',
+  //   initialSlide: 5,
+  // };
 
   ngAfterViewInit() {
     setTimeout(() => (this.loadingPage = false), 0);

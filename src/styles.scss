@@ -12,3 +12,66 @@ body {
   background-color: transparent; /* Cor do "polegar" (barra de rolagem) */
 }
 
+
+// animaçoes de hidden
+
+.hidden {
+  animation: left-desaparecer 1s ease-out;
+}
+
+.show {
+  animation: left-appear 1s ease-out;
+}
+
+@keyframes left-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-20vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes left-desaparecer {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20vw);
+  }
+}
+
+.hidden-right {
+  animation: right-desaparecer 1s ease-out;
+}
+
+.show-right {
+  animation: right-appear 1s ease-out;
+}
+
+@keyframes right-appear {
+  from {
+    opacity: 0;
+    transform: translateX(20vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes right-desaparecer {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20vw);
+  }
+}
+

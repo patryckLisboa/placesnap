@@ -128,7 +128,8 @@
 }
 
 .expanded-image {
-  width: 75%;
+  width: 90%;
+  height: 100%;
   border-radius: 10px;
 }
 
@@ -269,10 +270,6 @@
   }
   .swiper {
     padding-top: 0px !important;
-  }
-  .expanded-image {
-    width: 90%;
-    height: unset;
   }
 }
 

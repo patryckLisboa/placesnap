@@ -45,6 +45,35 @@ body {
   }
 }
 
+//animações clicked
+.clicked-elastic {
+  animation: elasticMotion 1s ease-out;
+}
+
+@keyframes elasticMotion {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(2px) scaleY(1.1);
+  }
+  30% {
+    transform: translateX(-2px) scaleY(0.9);
+  }
+  50% {
+    transform: translateX(1px) scaleY(1.05);
+  }
+  70% {
+    transform: translateX(-1px) scaleY(0.95);
+  }
+  90% {
+    transform: translateX(0.5px) scaleY(1);
+  }
+}
+
+
+
 .hidden-right {
   animation: right-desaparecer 1s ease-out;
 }

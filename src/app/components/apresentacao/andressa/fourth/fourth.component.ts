@@ -14,9 +14,28 @@ export class FourthComponent {
     const whatsAppUrl = `https://chat.whatsapp.com/KpJLi94io9LCuyXTZ7cwi9`;
   
     setTimeout(() => {
-      window.open(whatsAppUrl, '_blank');
+      window.open(whatsAppUrl);
     }, 500);
   }
+
+  openPatryck(element: HTMLElement) {
+    this.elasticEffect(element);
+    const whatsAppUrl = `https://www.instagram.com/pat_lisdz/`;
+  
+    setTimeout(() => {
+      window.open(whatsAppUrl);
+    }, 500);
+  }
+
+  openJeovana(element: HTMLElement) {
+    this.elasticEffect(element);
+    const whatsAppUrl = `https://www.instagram.com/matiassje_/`;
+  
+    setTimeout(() => {
+      window.open(whatsAppUrl);
+    }, 500);
+  }
+
 
 
   pagar() {

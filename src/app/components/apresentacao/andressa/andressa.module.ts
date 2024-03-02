@@ -12,6 +12,7 @@ import { PCarouselComponent } from '../../../shared/components/p-carousel/p-caro
 import { SwiperModule } from 'swiper/angular';
 import { ThirdComponent } from './third/third.component';
 import { FourthComponent } from './fourth/fourth.component';
+import { PBackgroundComponent } from '../../../shared/components/p-background/p-background.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FourthComponent } from './fourth/fourth.component';
     SecondComponent,
     PCarouselComponent,
     ThirdComponent,
-    FourthComponent
+    FourthComponent,
+    PBackgroundComponent
   ],
   imports: [
     BrowserModule,

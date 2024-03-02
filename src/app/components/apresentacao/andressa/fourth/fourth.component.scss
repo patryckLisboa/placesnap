@@ -137,6 +137,8 @@
 .circle-container .circle {
   border-radius: 172px;
   height: 70%;
+  max-width: 445px;
+  margin: auto;
   background-color: #8d80ff15;
   border: 1px solid #8c80ff;
   overflow: hidden;
@@ -158,6 +160,18 @@
   left: 114px;
   opacity: 0.4;
   position: relative;
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
+
+@keyframes floatAnimation {
+  0%,
+  100% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
 }
 
 .footer-container {

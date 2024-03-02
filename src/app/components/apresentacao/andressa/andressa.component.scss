@@ -1,7 +1,22 @@
 .body {
-  background: linear-gradient(to right, #3f3fa4, #563394, #633e8b);
   // width: 10;
 }
+
+.global-container {
+  animation: initial-blur 2s ease-out;
+}
+
+@keyframes initial-blur {
+  from {
+    // filter: blur(100px);
+    opacity: 0;
+  }
+  to {
+    // filter: blur(0);
+    opacity: 1;
+  }
+}
+
 
 * {
   transition: 0.5s;

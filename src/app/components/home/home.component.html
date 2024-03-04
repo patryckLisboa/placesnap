@@ -1,5 +1,5 @@
 <div class="body" [formGroup]="loginFormGroup">
-  <div class="login-container" *ngIf="!authService.user">
+  <div class="login-container" *ngIf="!userAuth">
     <div class="person">
       <fa-icon [icon]="faUserAlt"></fa-icon>
     </div>
@@ -74,6 +74,14 @@
         >
           Login <fa-icon [icon]="faSignInAlt"></fa-icon>
         </button>
+        <button
+          [disabled]="!loginFormGroup.valid"
+          class="button"
+          (click)="emailSignup()"
+          [ngClass]="{ 'disabled-button': !loginFormGroup.valid }"
+        >
+          cadastro <fa-icon [icon]="faSignInAlt"></fa-icon>
+        </button>
         <div class="button google" (click)="googleSignin()">
           <img
             src="../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
@@ -83,17 +91,17 @@
       </div>
     </div>
   </div>
-  <div *ngIf="authService.user">
-    Logged as <b>{{ authService.user.email }}</b> |
+  <div *ngIf="userAuth">
+    Logged as <b>{{ userAuth.email }}</b> |
     <button (click)="logOut()">Sair</button>
-    <button (click)="authService.deleteCurrentUser()">Deletar Conta</button>
-    <button (click)="authService.teste()">Teste</button>
+    <button (click)="deleteCurrentUser()">Deletar Conta</button>
+    <button (click)="limparComprasUsuario()">Remover compras</button>
 
     <hr />
-    <br>
+    <br />
     <h2>FireBase List</h2>
     <hr />
-    <div class="input-group">
+    <!-- <div class="input-group">
       <input
         placeholder="Nome"
         formControlName="nome"
@@ -101,7 +109,7 @@
         maxlength="60"
         autocomplete="name"
       />
-    </div>
+    </div> -->
     <hr />
     <button class="button" (click)="addCompra()">
       Inserir compra <fa-icon [icon]="faSignInAlt"></fa-icon>
@@ -112,14 +120,14 @@
         <th>Usuario</th>
         <th>Data Efetivação</th>
       </tr>
-      <tr *ngFor="let compra of compras | async">
-        <td [title]="['chave:  ' + compra.id]">{{compra.usuario.email}}</td>
+      <tr *ngFor="let compra of compras">
+        <td [title]="['chave:  ' + compra.key]">{{ userAuth.email }}</td>
         <td>{{ compra.dataefetivacao }}</td>
         <td>
-          <button (click)="removeCompra(compra.id)">X</button>
+          <button (click)="removeCompra(compra.key || '')">X</button>
         </td>
       </tr>
     </table>
   </div>
 </div>
-<button (click)="teste()">testar</button>
+<!-- <button (click)="teste()">testar</button> -->

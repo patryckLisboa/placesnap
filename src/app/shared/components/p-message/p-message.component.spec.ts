@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PSnackBarComponent } from './p-snack-bar.component';
+import { PMessageComponent } from './p-message.component';
 
-describe('PSnackBarComponent', () => {
-  let component: PSnackBarComponent;
-  let fixture: ComponentFixture<PSnackBarComponent>;
+describe('PMessageComponent', () => {
+  let component: PMessageComponent;
+  let fixture: ComponentFixture<PMessageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PSnackBarComponent]
+      imports: [PMessageComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PSnackBarComponent);
+    fixture = TestBed.createComponent(PMessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

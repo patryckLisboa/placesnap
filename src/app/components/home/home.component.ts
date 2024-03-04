@@ -7,31 +7,12 @@ import {
   faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-import { PSnackBarComponent } from './p-snack-bar/p-snack-bar.component';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import {
-  AngularFireDatabase,
-  SnapshotAction,
-} from '@angular/fire/compat/database';
-
-export interface UsuarioDB {
-  id: string;
-  email: string;
-  nome_login: string;
-  nome: string;
-  telefone1: string;
-  telefone2: string;
-  nivel_permissao: number;
-}
-
-export interface CompraDB {
-  id: string;
-  dataefetivacao: Date;
-  usuario: UsuarioDB;
-}
+import { Subscription } from 'rxjs';
+import { CompradbService } from '../../services/compradb/compradb.service';
+import { CompraDb } from '../../interfaces/compra-db';
+import { UsuarioDb } from '../../interfaces/usuario-db';
+import { UsuariodbService } from '../../services/usuariodb/usuariodb.service';
+import { PMessageService } from '../../shared/components/p-message/p-message.service';
 
 @Component({
   selector: 'app-home',
@@ -59,65 +40,43 @@ export class HomeComponent {
     telefone2: new FormControl(null),
   });
 
-  comprasRef: any;
-  compras: Observable<CompraDB[]> = new Observable();
+  userAuth: any;
+  userAuthSubscription: Subscription | undefined;
+  compras: CompraDb[] = [];
+  comprasSubscription: Subscription | undefined;
 
   constructor(
     public authService: AuthService,
-    private _snackBar: MatSnackBar,
-    private dataBase: AngularFireDatabase
+    public compraDbService: CompradbService,
+    public usuariosDbService: UsuariodbService,
+    public messageService: PMessageService,
+
   ) {}
 
-  ngAfterViewInit() {
-    setInterval(() => {
-      const user = this.authService.user;
-      if (user) this.getComprasByUsuario(); // Chame sua função com o valor do usuário
-    }, 500); // Intervalo de meio segundo (500 milissegundos)
-  }
-
-  // getCompras(){
-  //   this.comprasRef = this.dataBase.list('compras');
-  //   this.compras = this.comprasRef
-  //     .snapshotChanges()
-  //     .pipe(
-  //       map((changes: SnapshotAction<CompraDB>[]) =>
-  //         changes.map((c) => ({ id: c.payload.key, ...c.payload.val() }))
-  //       )
-  //     );
-  // }
-
-  async getComprasByUsuario() {
-    const usuario: any = await this.authService.getUsuarioCurrent();
-
-    this.compras.subscribe((compras: CompraDB[]) => {
-      const compraEncontrada = compras.some(
-        (compra) => compra.usuario.id === usuario.id
-      );
-
-      if (!compraEncontrada) {
-        this.listarComprasByUsuario(usuario);
+  ngOnInit() {
+    this.userAuthSubscription = this.authService.user.subscribe((user) => {
+      this.userAuth = user;
+      if(this.userAuth){
+        this.consultarCompras()
       }
     });
-    if (!this.comprasRef) {
-      this.listarComprasByUsuario(usuario);
+  }
+
+  ngOnDestroy(): void {
+    if (this.userAuthSubscription) {
+      this.userAuthSubscription.unsubscribe();
+    }
+    if (this.comprasSubscription) {
+      this.comprasSubscription.unsubscribe();
     }
   }
 
-  listarComprasByUsuario(usuario: any) {
-    if(!usuario) return
-    if(!this.authService.user) return
-
-    this.comprasRef = this.dataBase.list('compras', (ref) =>
-      ref.orderByChild('usuario/id').equalTo(usuario.id)
-    );
-
-    this.compras = this.comprasRef
-      .snapshotChanges()
-      .pipe(
-        map((changes: SnapshotAction<CompraDB>[]) =>
-          changes.map((c) => ({ id: c.payload.key, ...c.payload.val() }))
-        )
-      );
+  consultarCompras(){
+    this.comprasSubscription = this.compraDbService
+    .getCompras(this.userAuth?.uid)
+    .subscribe((compras: CompraDb[]) => {
+      this.compras = compras;
+    });
   }
 
   login() {
@@ -133,59 +92,57 @@ export class HomeComponent {
       this.loginFormGroup.get('emailFormControl').value,
       this.loginFormGroup.get('passwordFormControl').value
     );
-    this.getComprasByUsuario();
+  }
 
-    if (this.authService.error) {
-      return this.openSnackBar(this.authService.error);
-    }
+  async emailSignup() {
+    await this.authService.emailSignup(
+      this.loginFormGroup.get('emailFormControl').value,
+      this.loginFormGroup.get('passwordFormControl').value
+    );
   }
 
   async googleSignin() {
     await this.authService.googleSignin();
-    this.getComprasByUsuario();
-
-    if (this.authService.error) {
-      return this.openSnackBar(this.authService.error);
-    }
   }
 
   async addCompra() {
-    const usuario: any = await this.authService.getUsuarioCurrent();
-
-    this.comprasRef.push({
+    this.compraDbService.addCompra({
       dataefetivacao: new Date().toJSON(),
-      usuario: usuario,
-      teste: 'estdaffd',
-    });
+      usuarioKey: this.userAuth.uid,
+    } as CompraDb);
   }
 
-  removeCompra(id: string) {
-    this.comprasRef.remove(id);
+  removeCompra(key: string) {
+    this.compraDbService.deleteCompra(key);
   }
 
-  logOut() {
+  async logOut() {
+    await this.authService.signOut();
     this.loginFormGroup.reset();
-    this.comprasRef = null;
-    this.compras = new Observable<CompraDB[]>();
-    this.authService.signOut();
   }
 
-  teste() {
-    console.log(this.authService.user);
-    this.compras.forEach((element) => {
-      console.log(element);
-    });
-
-    this.openSnackBar('dfadfadf');
+  async deleteCurrentUser(){
+    await this.limparComprasUsuario()
+    await this.authService.deleteCurrentUser();
+    this.loginFormGroup.reset();
   }
 
-  openSnackBar(message = '') {
-    const snackBarRef: MatSnackBarRef<PSnackBarComponent> =
-      this._snackBar.openFromComponent(PSnackBarComponent, {
-        duration: 2000,
-        verticalPosition: 'top',
-        horizontalPosition: 'center',
+  async limparComprasUsuario(): Promise<void>{
+    try {
+      const promises: Promise<void>[] = [];
+      this.compras.forEach(compra => {
+        promises.push(this.compraDbService.deleteCompra(compra.key || '').catch(error => {
+          this.messageService.showErrorMessage(`Erro ao excluir compra ${compra.key}: `+ error);
+          throw error;
+        }));
       });
-    snackBarRef.instance.data = { message };
+      
+      await Promise.all(promises); 
+    } catch (error) {
+      this.messageService.showErrorMessage("Erro ao limpar compras do usuário: " + error);
+      throw error;
+    }
   }
+
+  teste() {}
 }

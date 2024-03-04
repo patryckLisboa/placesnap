@@ -23,9 +23,11 @@ import { environment } from '../environments/environment';
 import { AuthService } from './services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
 import { AndressaModule } from './components/apresentacao/andressa/andressa.module';
+import { MessagingModule } from '@angular/fire/messaging';
+import { PMessageComponent } from './shared/components/p-message/p-message.component';
 
 @NgModule({
-  declarations: [AppComponent, BrunoComponent, HomeComponent],
+  declarations: [AppComponent, BrunoComponent, HomeComponent, PMessageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -42,6 +44,7 @@ import { AndressaModule } from './components/apresentacao/andressa/andressa.modu
     MatSnackBarActions,
     MatSnackBarAction,
     AndressaModule,
+    MessagingModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

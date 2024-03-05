@@ -41,7 +41,6 @@ export class PCarouselComponent {
   }
 
   toggleImageModal(index: any = null): any {
-    console.log("terste")
     if (index || index == 0) {
       this.imgModalIndex = index;
       return (this.imagens[index].expanded = true);
@@ -157,31 +156,7 @@ export class PCarouselComponent {
       src: '../../../../assets/img/andressa/evolutions/img (17).jpeg',
       description: '5 meses',
       expanded: false,
-    },
-    {
-      index: 18,
-      src: '../../../../assets/img/andressa/evolutions/img (18).jpeg',
-      description: '5 meses',
-      expanded: false,
-    },
-    {
-      index: 19,
-      src: '../../../../assets/img/andressa/evolutions/img (19).jpeg',
-      description: '1 mês',
-      expanded: false,
-    },
-    {
-      index: 20,
-      src: '../../../../assets/img/andressa/evolutions/img (20).jpeg',
-      description: '4 meses',
-      expanded: false,
-    },
-    {
-      index: 21,
-      src: '../../../../assets/img/andressa/evolutions/img (21).jpeg',
-      description: '5 meses',
-      expanded: false,
-    },
+    }
   ];
 
   getImgDescription(): string {
@@ -198,7 +173,7 @@ export class PCarouselComponent {
 
   handleButton(prop = '') {
     if (prop == 'next') {
-      if(this.imgModalIndex > 19){
+      if(this.imgModalIndex > 15){
         // this.disabledNextClass(true)
         // this.disabledPrevClass()
         return

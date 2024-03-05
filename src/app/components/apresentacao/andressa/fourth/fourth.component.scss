@@ -106,10 +106,10 @@
 
 .espera-container {
   width: 100%;
-  clip-path: inset(20px 0px 50px 0px);
   display: flex;
   justify-content: center;
-  margin-top: 80px;
+  margin-bottom: 40px;
+  margin-top: 95px;
 }
 
 .espera-container .espera img {
@@ -140,7 +140,6 @@
   max-width: 445px;
   margin: auto;
   background-color: #8d80ff15;
-  border: 1px solid #8c80ff;
   overflow: hidden;
 }
 
@@ -177,9 +176,12 @@
 .footer-container {
   width: 100%;
   display: flex;
+  color: #d3c0f8;
   justify-content: center;
+  align-items: center;
   margin-top: 25px;
   position: relative;
+  column-gap: 5px;
   padding: 15px 0 10px;
   z-index: 1;
   background: linear-gradient(to right, #31317e, #4f3088, #5b3a7e);
@@ -232,8 +234,6 @@
   .espera-container .espera img {
     width: 320px;
     padding-bottom: 25px;
-    clip-path: inset(20px 0px 60px 0px);
-
   }
   .border-container .border .into-border img {
     height: 110px;

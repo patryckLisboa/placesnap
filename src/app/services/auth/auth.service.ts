@@ -25,7 +25,7 @@ export class AuthService {
         password
       );
       this.user.next(credential.user);
-     
+
     } catch (error) {
       this.messageService.showErrorMessage('Ocorreu um erro ao fazer login. Por favor, verifique suas credenciais e tente novamente.')
     }

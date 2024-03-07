@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/*"
+  to = "/andressa/index.html"
+  status = 200
+  conditions = {Domain = "mentoriadressapedrozza.com.br"}
+
+[[redirects]]
+  from = "/*"
+  to = "/bruno/index.html"
+  status = 200
+  conditions = {Domain = "brunonutrition.com.br"}

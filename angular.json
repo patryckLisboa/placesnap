@@ -29,7 +29,7 @@
               "src/favicon.ico",
               "src/assets",
               {
-                "glob": "_headers",
+                "glob": "netlify.toml",
                 "input": "src/assets/",
                 "output": "/"
               }

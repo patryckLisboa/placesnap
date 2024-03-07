@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 import firebase from 'firebase/compat/app';
 import { UsuarioDb } from '../../interfaces/usuario-db';
 import { PMessageService } from '../../shared/components/p-message/p-message.service';
-import { CompradbService } from '../compradb/compradb.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +11,7 @@ import { CompradbService } from '../compradb/compradb.service';
 export class AuthService {
   user: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  constructor(public auth: AngularFireAuth, private messageService: PMessageService, private compraService: CompradbService) {
+  constructor(public auth: AngularFireAuth, private messageService: PMessageService) {
     this.auth.authState.subscribe((user) => {
       this.user.next(user);
     });

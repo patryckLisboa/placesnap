@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, SnapshotAction } from '@angular/fire/compat/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject, SnapshotAction } from '@angular/fire/compat/database';
 import { UsuarioDb } from '../../interfaces/usuario-db';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,15 +32,34 @@ export class UsuariodbService {
     return this.db.object<UsuarioDb>('/usuarios/' + id).valueChanges();
   }
 
+  getUsuarioObservableById(id: string): AngularFireObject<UsuarioDb> {
+    return this.db.object(`/usuarios/${id}`);
+  }
+
+  getUsuarioByEmail(email: string): Observable<UsuarioDb | null> {
+    return this.db.list<UsuarioDb>('/usuarios', ref => ref.orderByChild('email').equalTo(email)).valueChanges()
+      .pipe(
+        map(usuarios => {
+          if (usuarios && usuarios.length > 0) {
+            return usuarios[0]; // Retorna o primeiro usuário encontrado com o email
+          } else {
+            return null; // Retorna null se nenhum usuário for encontrado com o email
+          }
+        })
+      );
+  }
+
   addUsuario(usuario: UsuarioDb): Promise<string | null> {
-    return this.usuariosRef.push(usuario)
-      .then(ref => ref.key)
+    const id = usuario.key; // Obtenha a chave do usuário
+  
+    return this.usuariosRef.update(id || '', usuario)
+      .then(() => id) // Retorna a chave como prometido
       .catch(error => {
         console.error("Erro ao adicionar usuário: ", error);
         throw error;
       });
   }
-
+  
   updateUsuario(id: string, novoUsuario: UsuarioDb): Promise<void> {
     return this.usuariosRef.update(id, novoUsuario)
       .catch(error => {
@@ -59,7 +78,7 @@ export class UsuariodbService {
 
   // Real-time event listeners
 
-  listenForUsuariosChanges(): Observable<any> {
+  listenForUsuariosChanges(): Observable<SnapshotAction<UsuarioDb>[]>  {
     return this.usuariosRef.snapshotChanges();
   }
 }

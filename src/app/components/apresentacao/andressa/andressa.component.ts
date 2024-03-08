@@ -1,9 +1,11 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ChangeDetectionStrategy  } from '@angular/core';
 
 @Component({
   selector: 'app-andressa',
   templateUrl: './andressa.component.html',
   styleUrls: ['./andressa.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class AndressaComponent {
   larguraTela = window.innerWidth;

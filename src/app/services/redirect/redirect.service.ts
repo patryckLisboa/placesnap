@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { MetaInfoService } from '../metaInfo/meta-info.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RedirectService {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private metaInfoService: MetaInfoService) {}
 
   public verificarDominio(): void {
     const dominioAtual = window.location.hostname;
     switch (dominioAtual) {
+      case 'localhost':
+        this.router.navigate(['/andressa']);
+        this.metaInfoService.setTitle('PlaceSnap');
+        this.metaInfoService.setIcon('./assets/img/placesnap.jpg');
+        // this.metaInfoService.setPageInfo('Andressa Pedrozza Mentoria', './assets/img/andressa/logo-andressa-mentoria.png');
+        break;
       case 'mentoriadressapedrozza.com.br':
         this.router.navigate(['/andressa']);
+        this.metaInfoService.setTitle('Andressa Pedrozza Mentoria');
+        this.metaInfoService.setIcon('./assets/img/andressa/logo-andressa-mentoria.png');
+        // this.metaInfoService.setPageInfo('Andressa Pedrozza Mentoria', './assets/img/andressa/logo-andressa-mentoria.png');
         break;
       case 'ckya.com.br':
         this.router.navigate(['/bruno']);
+        // this.metaInfoService.setPageInfo('CKYA', './assets/img/ckya/logo-ckya.png');
         break;
       default:
         // Nenhum redirecionamento

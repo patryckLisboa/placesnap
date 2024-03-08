@@ -1,6 +1,6 @@
-import { Component, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { RedirectService } from './services/redirect/redirect.service';
+import { MetaInfoService } from './services/metaInfo/meta-info.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,9 @@ import { RedirectService } from './services/redirect/redirect.service';
 })
 export class AppComponent {
   title = 'placesnap';
+  metaTitle: string = '';
+  metaIcon: string = '';
+
   constructor(private redirectService: RedirectService) {}
 
   ngOnInit(): void {

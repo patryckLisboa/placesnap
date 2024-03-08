@@ -25,9 +25,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { AndressaModule } from './components/apresentacao/andressa/andressa.module';
 import { MessagingModule } from '@angular/fire/messaging';
 import { PMessageComponent } from './shared/components/p-message/p-message.component';
+import { LoginComponent } from './components/home/login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, BrunoComponent, HomeComponent, PMessageComponent],
+  declarations: [AppComponent, BrunoComponent, HomeComponent, LoginComponent, PMessageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

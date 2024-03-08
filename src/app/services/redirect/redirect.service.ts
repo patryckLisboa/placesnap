@@ -19,7 +19,7 @@ export class RedirectService {
       case 'mentoriadressapedrozza.com.br':
         this.router.navigate(['/andressa']);
         this.metaInfoService.setTitle('Andressa Pedrozza Mentoria');
-        this.metaInfoService.setIcon('./assets/img/andressa/logo-andressa-mentoria.png');
+        this.metaInfoService.setIcon('./assets/img/andressa/11zon_cropped (1).png');
         break;
       case 'ckya.com.br':
         this.router.navigate(['/placesnap']);

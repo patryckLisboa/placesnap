@@ -12,20 +12,19 @@ export class RedirectService {
     const dominioAtual = window.location.hostname;
     switch (dominioAtual) {
       case 'localhost':
-        this.router.navigate(['/andressa']);
+        this.router.navigate(['/home']);
         this.metaInfoService.setTitle('PlaceSnap');
         this.metaInfoService.setIcon('./assets/img/placesnap.jpg');
-        // this.metaInfoService.setPageInfo('Andressa Pedrozza Mentoria', './assets/img/andressa/logo-andressa-mentoria.png');
         break;
       case 'mentoriadressapedrozza.com.br':
         this.router.navigate(['/andressa']);
         this.metaInfoService.setTitle('Andressa Pedrozza Mentoria');
         this.metaInfoService.setIcon('./assets/img/andressa/logo-andressa-mentoria.png');
-        // this.metaInfoService.setPageInfo('Andressa Pedrozza Mentoria', './assets/img/andressa/logo-andressa-mentoria.png');
         break;
       case 'ckya.com.br':
-        this.router.navigate(['/bruno']);
-        // this.metaInfoService.setPageInfo('CKYA', './assets/img/ckya/logo-ckya.png');
+        this.router.navigate(['/placesnap']);
+        this.metaInfoService.setTitle('PlaceSnap');
+        this.metaInfoService.setIcon('./assets/img/placesnap.jpg');
         break;
       default:
         // Nenhum redirecionamento

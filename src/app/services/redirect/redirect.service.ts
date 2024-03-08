@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class RedirectService {
-  constructor(private location: Location, private router: Router) {}
+  constructor(private router: Router) {}
 
   public verificarDominio(): void {
-    const dominioAtual = this.location.hostname;
+    const dominioAtual = window.location.hostname;
     switch (dominioAtual) {
       case 'mentoriadressapedrozza.com.br':
         this.router.navigate(['/andressa']);

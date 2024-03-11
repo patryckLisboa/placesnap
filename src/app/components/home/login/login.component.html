@@ -1,63 +1,252 @@
 <div class="body">
-  <div class="container" id="container"  [style.zoom]="getZoom()">
+  <div
+    class="container"
+    id="container"
+    [style.zoom]="getZoom()"
+    [formGroup]="loginFormGroup"
+  >
     <div class="form-container sign-up">
-      <form>
-        <h1>Create Account</h1>
+      <div class="form">
+        <h1>Crie sua Conta</h1>
         <div class="social-icons">
-          <a href="#" class="icon"
-            ><i class="fa-brands fa-google-plus-g"></i
-          ></a>
-          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+          <div class="google" style="cursor: pointer" (click)="googleSignin()">
+            <img
+              src="../../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
+              alt=""
+            />
+          </div>
         </div>
-        <span>or use your email for registeration</span>
-        <input type="text" placeholder="Name" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button>Sign Up</button>
-      </form>
+        <span>ou use seu e-mail e senha</span>
+        <br />
+        <div>
+          <div class="input-group">
+            <input
+              placeholder="Email"
+              formControlName="emailFormControl"
+              type="email"
+              maxlength="60"
+            />
+            <span
+              *ngIf="
+                loginFormGroup.get('emailFormControl').hasError('required') &&
+                loginFormGroup.get('emailFormControl').touched
+              "
+              class="error-message"
+            >
+              Email é obrigatório.
+            </span>
+            <span
+              *ngIf="
+                loginFormGroup.get('emailFormControl').hasError('email') &&
+                !loginFormGroup.get('emailFormControl').hasError('required') &&
+                loginFormGroup.get('emailFormControl').touched
+              "
+              class="error-message"
+            >
+              Email inválido.
+            </span>
+          </div>
+          <div class="input-group">
+            <input
+              placeholder="Senha"
+              formControlName="passwordFormControl"
+              type="password"
+              id="password"
+              name="password"
+              maxlength="15"
+            />
+            <span
+              *ngIf="
+                loginFormGroup
+                  .get('passwordFormControl')
+                  .hasError('required') &&
+                loginFormGroup.get('passwordFormControl').touched
+              "
+              class="error-message"
+            >
+              Senha é obrigatória.
+            </span>
+            <span
+              *ngIf="
+                loginFormGroup
+                  .get('passwordFormControl')
+                  .hasError('minlength') &&
+                loginFormGroup.get('passwordFormControl').touched
+              "
+              class="error-message"
+            >
+              Mínimo 6 caracteres.
+            </span>
+          </div>
+          <div class="input-group">
+            <input
+              placeholder="Confirmação de senha"
+              [formControl]="passwordConfirmFormControl"
+              type="password"
+              id="password"
+              name="password"
+              maxlength="15"
+            />
+            <span
+              *ngIf="
+                passwordConfirmFormControl.hasError('required') &&
+                passwordConfirmFormControl.touched
+              "
+              class="error-message"
+            >
+              Confirmação de senha é obrigatória.
+            </span>
+            <span
+              *ngIf="
+                passwordConfirmFormControl.hasError('minlength') &&
+                passwordConfirmFormControl.touched
+              "
+              class="error-message"
+            >
+              Mínimo 6 caracteres.
+            </span>
+
+            <span
+              *ngIf="
+                passwordConfirmFormControl.valid &&
+                !successPasswordConfirm &&
+                passwordConfirmFormControl.touched
+              "
+              class="error-message"
+            >
+              As senhas devem ser as mesmas.
+            </span>
+          </div>
+        </div>
+        <button
+          [disabled]="!loginFormGroup.valid || !successPasswordConfirm"
+          class="button"
+          (click)="emailSignup()"
+          [ngClass]="{
+            'disabled-button': !loginFormGroup.valid || !successPasswordConfirm
+          }"
+        >
+          Cadastrar-se <fa-icon [icon]="faSignInAlt"></fa-icon>
+        </button>
+      </div>
     </div>
     <div class="form-container sign-in">
-      <form>
-        <h1>Sign In</h1>
+      <div class="form">
+        <h1>Login</h1>
         <div class="social-icons">
-          <a href="#" class="icon"
-            ><i class="fa-brands fa-google-plus-g"></i
-          ></a>
-          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-          <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+          <div class="google" style="cursor: pointer" (click)="googleSignin()">
+            <img
+              src="../../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
+              alt=""
+            />
+          </div>
         </div>
-        <span>or use your email password</span>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <a href="#">Forget Your Password?</a>
-        <button>Sign In</button>
-      </form>
+
+        <span>ou use seu e-mail e senha</span>
+        <br />
+        <div>
+          <div class="input-group">
+            <input
+              placeholder="Email"
+              formControlName="emailFormControl"
+              type="email"
+              id="email"
+              name="email"
+              maxlength="60"
+              autocomplete="email"
+            />
+            <span
+              *ngIf="
+                loginFormGroup.get('emailFormControl').hasError('required') &&
+                loginFormGroup.get('emailFormControl').touched
+              "
+              class="error-message"
+            >
+              Email é obrigatório.
+            </span>
+            <span
+              *ngIf="
+                loginFormGroup.get('emailFormControl').hasError('email') &&
+                !loginFormGroup.get('emailFormControl').hasError('required') &&
+                loginFormGroup.get('emailFormControl').touched
+              "
+              class="error-message"
+            >
+              Email inválido.
+            </span>
+          </div>
+          <div class="input-group">
+            <input
+              placeholder="Senha"
+              formControlName="passwordFormControl"
+              type="password"
+              id="password"
+              name="password"
+              maxlength="15"
+              autocomplete="current-password"
+            />
+            <span
+              *ngIf="
+                loginFormGroup
+                  .get('passwordFormControl')
+                  .hasError('required') &&
+                loginFormGroup.get('passwordFormControl').touched
+              "
+              class="error-message"
+            >
+              Senha é obrigatória.
+            </span>
+            <span
+              *ngIf="
+                loginFormGroup
+                  .get('passwordFormControl')
+                  .hasError('minlength') &&
+                loginFormGroup.get('passwordFormControl').touched
+              "
+              class="error-message"
+            >
+              Mínimo 6 caracteres.
+            </span>
+          </div>
+        </div>
+        <button
+          class="button"
+          (click)="emailSignin()"
+          [ngClass]="{ 'disabled-button': !loginFormGroup.valid }"
+          [disabled]="!loginFormGroup.valid"
+        >
+          Entrar <fa-icon [icon]="faSignInAlt"></fa-icon>
+        </button>
+      </div>
     </div>
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">
-          <h1>Welcome Back!</h1>
-          <p>Enter your personal details to use all of site features</p>
+          <h1>Bem vindo de volta!</h1>
+          <p>
+            Entre com suas credenciais para ter acesso a todos os recursos do
+            site
+          </p>
           <button
-            class="hidden"
+            class="button hidden"
             id="login"
             (click)="removeActiveClass('container')"
           >
-            Sign In
+            Entrar
           </button>
         </div>
         <div class="toggle-panel toggle-right">
-          <h1>Hello, Friend!</h1>
-          <p>Register with your personal details to use all of site features</p>
+          <h1>Olá!</h1>
+          <p>
+            Registre-se com suas credenciais para ter acesso a todos os recursos
+            do site
+          </p>
           <button
-            class="hidden"
+            class="button hidden"
             id="register"
             (click)="addActiveClass('container')"
           >
-            Sign Up
+            Cadastrar-se
           </button>
         </div>
       </div>

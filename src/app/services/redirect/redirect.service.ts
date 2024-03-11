@@ -11,11 +11,11 @@ export class RedirectService {
   public verificarDominio(): void {
     const dominioAtual = window.location.hostname;
     switch (dominioAtual) {
-      case 'localhost':
-        this.router.navigate(['/home']);
-        this.metaInfoService.setTitle('PlaceSnap');
-        this.metaInfoService.setIcon('./assets/img/placesnap.jpg');
-        break;
+      // case 'localhost':
+      //   this.router.navigate(['/home']);
+      //   this.metaInfoService.setTitle('PlaceSnap');
+      //   this.metaInfoService.setIcon('./assets/img/placesnap.jpg');
+      //   break;
       case 'mentoriadressapedrozza.com.br':
         this.router.navigate(['/andressa']);
         this.metaInfoService.setTitle('Andressa Pedrozza Mentoria');

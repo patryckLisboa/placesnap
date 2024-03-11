@@ -1,11 +1,16 @@
 import { Component, HostListener } from '@angular/core';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { faSignInAlt, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import { HomeService } from '../service/home.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  faSignInAlt = faSignInAlt;
+  faUserAlt = faUserAlt;
+
   larguraTela = window.innerWidth;
 
   @HostListener('window:resize', [])
@@ -20,7 +25,34 @@ export class LoginComponent {
     return 1;
   }
 
+  loginFormGroup: any = new FormGroup({
+    emailFormControl: new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    passwordFormControl: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+  });
+
+  passwordConfirmFormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
+
+  get successPasswordConfirm() {
+    return (
+      this.passwordConfirmFormControl.value ===
+      this.loginFormGroup.get('passwordFormControl').value
+    );
+  }
+
+  constructor(public homeService: HomeService) {}
+  
   addActiveClass(elementId: string) {
+    this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
     const element = document.getElementById(elementId);
     if (element) {
       element.classList.add('active');
@@ -28,9 +60,32 @@ export class LoginComponent {
   }
 
   removeActiveClass(elementId: string) {
+    this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
     const element = document.getElementById(elementId);
     if (element) {
       element.classList.remove('active');
     }
   }
+
+  async emailSignup() {
+    await this.homeService.emailSignup(
+      this.loginFormGroup.get('emailFormControl').value,
+      this.loginFormGroup.get('passwordFormControl').value
+    );
+    this.loginFormGroup.reset();
+  }
+
+  async emailSignin() {
+    await this.homeService.emailSignin(
+      this.loginFormGroup.get('emailFormControl').value,
+      this.loginFormGroup.get('passwordFormControl').value
+    );
+    this.loginFormGroup.reset();
+  }
+
+  async googleSignin() {
+    await this.homeService.googleSignin();
+  }
+
 }

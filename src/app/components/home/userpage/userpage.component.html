@@ -1,0 +1,56 @@
+<div class="body">
+  <div>
+    Logged as <b>{{ homeService.userAuth.email }}</b> |
+    <button (click)="homeService.desconectarUsuario()">Sair</button>
+    <button (click)="homeService.deleteCurrentUser()">Deletar Conta</button>
+    <button (click)="homeService.permissaoUsuario == 1 ? homeService.limparComprasUsuario() : homeService.limparConteudosUsuario()">
+      Remover tudo da lista
+    </button>
+
+    <hr />
+    <br />
+    <h2>FireBase List</h2>
+    <hr />
+
+    <div class="input-group">
+      <input
+        placeholder="Nome"
+        type="name"
+        maxlength="60"
+        autocomplete="name"
+      />
+    </div>
+    <hr />
+    <div>
+      <button *ngIf="homeService.permissaoUsuario >= 2" class="button" (click)="homeService.addConteudo()">
+        Inserir Conteudo
+      </button>
+      <hr />
+      <table border="1">
+        <tr> 
+          <th>Usuário</th>
+          <th>Título</th>
+        </tr>
+        <tr *ngFor="let conteudo of homeService.conteudos">
+          <td [title]="['chave:  ' + conteudo.key]">{{ conteudo.usuarioKey }}</td>
+          <td>{{ conteudo.titulo }}</td>
+          <td *ngIf="homeService.permissaoUsuario >= 2">
+            <button (click)="homeService.removeConteudo(conteudo.key || '')">
+              X
+            </button>
+            <button (click)="abrirLocalConteudo(conteudo)">
+              ->
+            </button>
+          </td>
+          <td *ngIf="homeService.permissaoUsuario == 1">
+            <button (click)="homeService.addCompra(conteudo.key)">
+              $
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- <button (click)="teste()">testar</button> -->

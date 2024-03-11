@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Clientes do conteúdo: {{ data?.titulo }}</h2>
+<mat-dialog-content>
+  <div *ngIf="homeService.permissaoUsuario == 2">
+    <!-- <button class="button" (click)="homeService.addCompra()">
+      Inserir compra
+    </button> -->
+    <hr />
+    <table border="1">
+      <tr>
+        <th>Usuario</th>
+        <th>Data Efetivação</th>
+      </tr>
+      <tr *ngFor="let compraUsuario of comprasUsuarios">
+        <td [title]="['chave:  ' + compraUsuario.usuario.key]">
+          {{ compraUsuario.usuario.email }}
+        </td>
+        <td>{{ compraUsuario.compra.dataefetivacao }}</td>
+        <!-- <td>
+          <button (click)="homeService.removeCompra(compra.key || '')">
+            X
+          </button>
+        </td> -->
+      </tr>
+    </table>
+  </div>
+  <div>
+    <button (click)="teste()">testar</button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <!-- <button mat-button mat-dialog-close>No</button> -->
+  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

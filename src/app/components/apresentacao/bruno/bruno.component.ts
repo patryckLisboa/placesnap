@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bruno',
@@ -7,5 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./bruno.component.scss'],
 })
 export class BrunoComponent {
+  constructor(private router: Router) {}
 
+  navigateToHome() {
+    this.router.navigate(['/home'], {
+      queryParams: { placer: 'zu2B9z9K2XRiZxmIsR7ezJCxbcL2' },
+    });
+  }
 }

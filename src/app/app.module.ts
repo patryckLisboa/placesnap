@@ -4,9 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
-import { BrunoComponent } from './components/apresentacao/bruno/bruno.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HomeComponent } from './components/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importe o FormsModule
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -25,10 +23,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { AndressaModule } from './components/apresentacao/andressa/andressa.module';
 import { MessagingModule } from '@angular/fire/messaging';
 import { PMessageComponent } from './shared/components/p-message/p-message.component';
-import { LoginComponent } from './components/home/login/login.component';
+import { HomeModule } from './components/home/home.module';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, BrunoComponent, HomeComponent, LoginComponent, PMessageComponent],
+  declarations: [AppComponent, PMessageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,7 +44,9 @@ import { LoginComponent } from './components/home/login/login.component';
     MatSnackBarActions,
     MatSnackBarAction,
     AndressaModule,
+    HomeModule,
     MessagingModule,
+    MatDialogModule
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { faSignInAlt, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { HomeService } from '../service/home.service';
 @Component({
   selector: 'app-login',
@@ -9,7 +9,6 @@ import { HomeService } from '../service/home.service';
 })
 export class LoginComponent {
   faSignInAlt = faSignInAlt;
-  faUserAlt = faUserAlt;
 
   larguraTela = window.innerWidth;
 

@@ -1,33 +1,32 @@
-<h2 mat-dialog-title>Clientes do conteúdo: {{ data?.titulo }}</h2>
-<mat-dialog-content>
-  <div *ngIf="homeService.permissaoUsuario == 2">
-    <!-- <button class="button" (click)="homeService.addCompra()">
-      Inserir compra
-    </button> -->
-    <hr />
-    <table border="1">
-      <tr>
-        <th>Usuario</th>
-        <th>Data Efetivação</th>
-      </tr>
-      <tr *ngFor="let compraUsuario of comprasUsuarios">
-        <td [title]="['chave:  ' + compraUsuario.usuario.key]">
-          {{ compraUsuario.usuario.email }}
-        </td>
-        <td>{{ compraUsuario.compra.dataefetivacao }}</td>
-        <!-- <td>
-          <button (click)="homeService.removeCompra(compra.key || '')">
-            X
-          </button>
-        </td> -->
-      </tr>
-    </table>
+<div class="body" [style.zoom]="getZoom()">
+  <div class="title">
+    <h1>Assinantes</h1>
+    <h2>{{ data?.titulo }}</h2>
   </div>
-  <div>
-    <button (click)="teste()">testar</button>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <!-- <button mat-button mat-dialog-close>No</button> -->
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
-</mat-dialog-actions>
+  <mat-dialog-content>
+    <div *ngIf="homeService.permissaoUsuario == 2" class="users-container">
+      <div class="user" *ngFor="let compraUsuario of comprasUsuarios">
+        <div><fa-icon class="user-icon" [icon]="faUserAlt"></fa-icon></div>
+        <div class="content-user">
+          <b>
+            {{ compraUsuario.usuario.email }}
+          </b>
+          <div>{{ compraUsuario.compra.dataefetivacao }}</div>
+        </div>
+        <button
+          class="delete-button"
+          mat-button
+          (click)="removerCompraUsuario(compraUsuario.compra.key || '') "
+        >
+          <fa-icon class="delete-button-icon" [icon]="faXmark"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions style="top: 0; right: 0; position: absolute">
+    <button mat-button mat-dialog-close class="close-button">
+      <fa-icon class="close-button-icon" [icon]="faWindowMinimize"></fa-icon>
+    </button>
+    <!-- <button mat-button mat-dialog-close cdkFocusInitial>Ok</button> -->
+  </mat-dialog-actions>
+</div>

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -17,6 +17,12 @@ import { CompraDb } from '../../../interfaces/compra-db';
 import { UsuariodbService } from '../../../services/usuariodb/usuariodb.service';
 import { UsuarioDb } from '../../../interfaces/usuario-db';
 import { ChangeDetectorRef } from '@angular/core';
+import {
+  faCompress,
+  faUserAlt,
+  faWindowMinimize,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 
 export interface ComprasUsuariosDB {
   compra: CompraDb;
@@ -29,17 +35,24 @@ export interface ComprasUsuariosDB {
   styleUrls: ['./contentlocation.component.scss'],
 })
 export class ContentlocationComponent {
+  faXmark = faXmark;
+  faUserAlt = faUserAlt;
+  faWindowMinimize = faWindowMinimize;
+
   comprasUsuarios: ComprasUsuariosDB[] = [];
-  // comprasUsuariosTeste: ComprasUsuariosDB[] = [
-  //   {
-  //     compra: { key:"4123554", dataefetivacao: '2024-03-10' },
-  //     usuario: {key:"415456323",  email: 'usuario1@example.com' }
-  //   },
-  //   {
-  //     compra: {key:"4126535",  dataefetivacao: '2024-03-09' },
-  //     usuario: {key:"4125863",  email: 'usuario2@example.com'}
-  //   },
-  // ];
+  larguraTela = window.innerWidth;
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.larguraTela = window.innerWidth;
+  }
+
+  getZoom() {
+    if (this.larguraTela < 550) {
+      return this.larguraTela / 550;
+    }
+    return 1;
+  }
 
   constructor(
     public conteudocompradbService: ConteudocompradbService,
@@ -52,6 +65,7 @@ export class ContentlocationComponent {
   ) {}
 
   teste() {
+    console.log('teste');
     console.log(this.comprasUsuarios);
   }
 
@@ -62,6 +76,7 @@ export class ContentlocationComponent {
   onDestroy(): void {}
 
   async consultarConteudoCompras() {
+    console.log(this.data);
     const conteudocompras = await firstValueFrom(
       this.conteudocompradbService.getConteudocomprasConteudo(this.data.key)
     );
@@ -72,21 +87,27 @@ export class ContentlocationComponent {
     });
   }
 
-  async consultarCompraConteudoCompra(conteudocompra: string) {
+  async consultarCompraConteudoCompra(compraKey: string) {
     const compra = await firstValueFrom(
-      this.compradbService.getCompraById(conteudocompra)
+      this.compradbService.getCompraById(compraKey)
     );
 
     if (compra?.usuarioKey) {
       const usuario = await firstValueFrom(
         this.usuarioDbService.getUsuarioById(compra.usuarioKey)
       );
-      console.log(usuario, compra);
 
       if (compra && usuario) {
+        compra.key = compraKey;
         this.comprasUsuarios.push({ compra, usuario });
         this.cdRef.markForCheck();
       }
     }
+  }
+  async removerCompraUsuario(compraKey: string) {
+    this.homeService.removeCompra(compraKey);
+    this.comprasUsuarios = this.comprasUsuarios.filter(
+      (item) => item.compra.key !== compraKey
+    );
   }
 }

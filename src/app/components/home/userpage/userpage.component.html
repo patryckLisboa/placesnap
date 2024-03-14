@@ -1,54 +1,142 @@
 <div class="body">
-  <div>
-    Logged as <b>{{ homeService.userAuth.email }}</b> |
-    <button (click)="homeService.desconectarUsuario()">Sair</button>
-    <button (click)="homeService.deleteCurrentUser()">Deletar Conta</button>
-    <button (click)="homeService.permissaoUsuario == 1 ? homeService.limparComprasUsuario() : homeService.limparConteudosUsuario()">
-      Remover tudo da lista
-    </button>
-
-    <hr />
-    <br />
-    <h2>FireBase List</h2>
-    <hr />
-
-    <div class="input-group">
-      <input
-        placeholder="Nome"
-        type="name"
-        maxlength="60"
-        autocomplete="name"
-      />
+  <div [style.zoom]="getZoom()" class="content-user">
+    <div class="top-circle">
+      <div>
+        <fa-icon [icon]="faUserAlt"></fa-icon>
+      </div>
+      <div>
+        <div
+          class="hidden-text"
+          (mouseover)="showEmailTooltip = true"
+          (mouseout)="showEmailTooltip = false"
+          (click)="showEmailTooltip = !showEmailTooltip"
+        >
+          <b>{{ homeService.userAuth.email }}</b>
+        </div>
+        <div *ngIf="showEmailTooltip" class="tool-tip">
+          {{ homeService.userAuth.email }}
+        </div>
+      </div>
+      <div class="menu-client-options">
+        <button
+          class="icon-options"
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            class="top-menu-button"
+            (click)="homeService.handleAcessoUsuario()"
+          >
+            <fa-icon class="icon-menu-option" [icon]="faCircleLeft"></fa-icon>
+            <b class="label-menu-option"> Sair</b>
+          </button>
+        </mat-menu>
+      </div>
     </div>
-    <hr />
-    <div>
-      <button *ngIf="homeService.permissaoUsuario >= 2" class="button" (click)="homeService.addConteudo()">
-        Inserir Conteudo
-      </button>
-      <hr />
-      <table border="1">
-        <tr> 
-          <th>Usuário</th>
-          <th>Título</th>
-        </tr>
-        <tr *ngFor="let conteudo of homeService.conteudos">
-          <td [title]="['chave:  ' + conteudo.key]">{{ conteudo.usuarioKey }}</td>
-          <td>{{ conteudo.titulo }}</td>
-          <td *ngIf="homeService.permissaoUsuario >= 2">
-            <button (click)="homeService.removeConteudo(conteudo.key || '')">
-              X
-            </button>
-            <button (click)="abrirLocalConteudo(conteudo)">
-              ->
-            </button>
-          </td>
-          <td *ngIf="homeService.permissaoUsuario == 1">
-            <button (click)="homeService.addCompra(conteudo.key)">
-              $
-            </button>
-          </td>
-        </tr>
-      </table>
+    <div class="list-content-container">
+      <div class="header-list-content">
+        <div style="width: 160px"></div>
+        <h2>Área de conteúdos</h2>
+        <div *ngIf="homeService.permissaoUsuario >= 2" class="container-glass">
+          <button
+            mat-menu-item
+            (click)="homeService.addConteudo()"
+            style="width: 150px"
+          >
+            <fa-icon
+              class="icon-menu-option"
+              style="color: #ffffff"
+              [icon]="faPlus"
+            ></fa-icon>
+            <b class="label-menu-option" style="color: #ffffff">Novo</b>
+          </button>
+        </div>
+        <div
+          *ngIf="homeService.permissaoUsuario < 2"
+          style="width: 160px"
+        ></div>
+      </div>
+      <div class="content-list-container" style="text-align: center">
+        <div
+          class="content-container"
+          *ngFor="let conteudo of homeService.conteudos"
+        >
+          <!-- <div class="content-header">
+            {{ conteudo.usuarioKey }}
+          </div> -->
+          <div class="content-body">
+            <div class="title">
+              <h2>
+                {{ conteudo.titulo }}
+              </h2>
+              <div>
+                <button
+                  class="icon-options"
+                  mat-icon-button
+                  [matMenuTriggerFor]="menuItem"
+                  aria-label="Example icon-button with a menu"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menuItem="matMenu" class="buttons-options">
+                  <div
+                    *ngIf="homeService.permissaoUsuario >= 2"
+                    class="content-menu-button"
+                  >
+                    <button
+                      mat-menu-item
+                      (click)="abrirLocalConteudo(conteudo)"
+                    >
+                      <fa-icon
+                        class="icon-menu-option"
+                        [icon]="faChartPie"
+                      ></fa-icon>
+                      <b class="label-menu-option">Gerenciar Vendas</b>
+                    </button>
+                    <button
+                      mat-menu-item
+                      class="delete-button"
+                      (click)="homeService.removeConteudo(conteudo.key || '')"
+                    >
+                      <fa-icon
+                        class="icon-menu-option"
+                        style="left: 5px; position: relative"
+                        [icon]="faXmark"
+                      ></fa-icon>
+                      <b class="label-menu-option">Excluir</b>
+                    </button>
+                  </div>
+                  <div
+                    *ngIf="homeService.permissaoUsuario == 1"
+                    class="content-menu-button"
+                  >
+                    <button
+                      mat-menu-item
+                      (click)="homeService.addCompra(conteudo.key || '')"
+                    >
+                      <fa-icon
+                        class="icon-menu-option"
+                        [icon]="faHandHoldingDollar"
+                      ></fa-icon>
+                      <b class="label-menu-option">Comprar</b>
+                    </button>
+                  </div>
+                </mat-menu>
+              </div>
+            </div>
+            <!-- <div class="describe">{{ conteudo.descricao }}</div> -->
+            <div class="describe">
+              "teste descrição conteudoteste descrição conteudoteste descrição
+              conteudoteste descrição conteudoteste descrição conteudo"
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

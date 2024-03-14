@@ -55,6 +55,7 @@ export class HomeService {
                 this.conteudos = []; 
                 if(this.paymentService.placerKey){
                   this.consultarConteudos(this.paymentService.placerKey)
+                  this.consultarCompras()
                 }
               }else if(usuario.nivel_permissao == 2){
                 this.conteudos = []; 
@@ -113,26 +114,26 @@ export class HomeService {
       emailFormControl,
       passwordFormControl
     );
-    await this.desconectarUsuario();
-    await this.authService.emailSignin(
-      emailFormControl,
-      passwordFormControl
-    );
-    await this.addCurrentUsuarioToDataBase();
+    await this.handleAcessoUsuario(true);
   }
 
-  async desconectarUsuario() {
+  async handleAcessoUsuario(loginValidation = false) {
     if (this.userAuth) {
       const usuario = await firstValueFrom(
         this.usuariosDbService.getUsuarioById(this.userAuth.uid)
       );
       if (usuario && usuario.logado) {
-        console.log('Desconectando usuário logado em outra máquina...');
         await this.usuariosDbService.updateUsuario(this.userAuth.uid, {
           ...usuario,
           logado: false,
         });
+        if(loginValidation){
+          return this.messageService.showErrorMessage('Desconectando usuário logado em outra máquina... Faça login novamente');
+        }
       }
+    }
+    if(loginValidation){
+      await this.addCurrentUsuarioToDataBase();
     }
   }
 
@@ -168,20 +169,15 @@ export class HomeService {
 
   async googleSignin() {
     await this.authService.googleSignin();
-    await this.desconectarUsuario();
-    await this.addCurrentUsuarioToDataBase();
+    await this.handleAcessoUsuario(true);
   }
 
-  async addCompra(conteudoKey : string | null) {
-    const compraKey: any = await this.compraDbService.addCompra({
-      dataefetivacao: new Date().toJSON(),
-      usuarioKey: this.userAuth.uid,
-    } as CompraDb);
-    this.paymentService.comprar(conteudoKey, compraKey)
+  async addCompra(conteudoKey : string) {
+    this.paymentService.comprar(conteudoKey, this.userAuth.uid)
   }
 
   removeCompra(key: string) {
-    this.compraDbService.deleteCompra(key);
+    this.paymentService.cancelarCompra(key);
   }
 
   async addConteudo() {
@@ -193,7 +189,7 @@ export class HomeService {
   }
 
   removeConteudo(key: string) {
-    this.conteudoDbService.deleteConteudo(key);
+    this.paymentService.cancelarConteudo(key);
   }
 
   async logOut() {
@@ -210,33 +206,10 @@ export class HomeService {
   }
 
   async deleteCurrentUser() {
-    await this.limparConteudoCompras();
     await this.limparComprasUsuario();
     await this.limparConteudosUsuario();
     await this.usuariosDbService.deleteUsuario(this.userAuth.uid);
     await this.authService.deleteCurrentUser();
-  }
-
-  async limparConteudoCompras(){
-    this.conteudos.forEach((conteudo) => {
-      if(conteudo.key){
-        this.limparConteudoComprasConteudo(conteudo.key)
-      }
-    });
-  }
-
-  async limparConteudoComprasConteudo(conteudo: string){
-    const conteudocompras = await firstValueFrom(this.conteudocompradbService.getConteudocomprasCompra(conteudo))
-    conteudocompras.forEach((conteudocompra)=>{
-      this.conteudocompradbService
-      .deleteConteudocompra(conteudocompra.key || '')
-      .catch((error) => {
-        this.messageService.showErrorMessage(
-          `Erro ao excluir o conteudo compra ${conteudocompra.key}: ` + error
-        );
-        throw error;
-      });
-    })
   }
 
   async limparComprasUsuario(): Promise<void> {
@@ -244,7 +217,7 @@ export class HomeService {
       const promises: Promise<void>[] = [];
       this.compras.forEach((compra) => {
         promises.push(
-          this.compraDbService.deleteCompra(compra.key || '').catch((error) => {
+          this.paymentService.cancelarCompra(compra.key || '').catch((error) => {
             this.messageService.showErrorMessage(
               `Erro ao excluir compra ${compra.key}: ` + error
             );
@@ -264,10 +237,13 @@ export class HomeService {
 
   async limparConteudosUsuario(): Promise<void> {
     try {
+      if(this.permissaoUsuario < 2){
+        return
+      }
       const promises: Promise<void>[] = [];
       this.conteudos.forEach((conteudo) => {
         promises.push(
-          this.conteudoDbService.deleteConteudo(conteudo.key || '').catch((error) => {
+          this.paymentService.cancelarConteudo(conteudo.key || '').catch((error) => {
             this.messageService.showErrorMessage(
               `Erro ao excluir conteudo ${conteudo.key}: ` + error
             );
@@ -285,5 +261,4 @@ export class HomeService {
     }
   }
 
-  teste() {}
 }

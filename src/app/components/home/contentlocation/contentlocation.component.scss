@@ -1,0 +1,68 @@
+.body {
+  background: linear-gradient(to right, #9395ff, #9eb5ff);
+  min-width: 400px;
+}
+
+.user {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  border-left: 10px solid rgba(68, 0, 255, 0.8);
+  padding: 20px 10px;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.delete-button {
+  font-size: 25px;
+}
+
+.delete-button-icon {
+  color: rgba(255, 0, 0, 0.6);
+}
+
+.user-icon {
+  font-size: 30px;
+  border: 5px solid #c9d6ff;
+  color: #c9d6ff;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.title {
+  color: #fff !important;
+}
+
+.title h1 {
+  font-size: 36px;
+  text-align: center;
+  margin: 15px 0px;
+}
+
+.title h2 {
+  font-size: 25px;
+  padding-left: 30px;
+  margin: 0;
+}
+
+.content-user {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.close-button {
+  border-radius: 30px;
+  padding: 20px;
+  color: #fff !important;
+  font-size: 25px;
+}
+
+.close-button-icon {
+  position: absolute;
+  right: -12px;
+  top: -22px;
+}

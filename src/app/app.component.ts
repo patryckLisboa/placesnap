@@ -16,5 +16,13 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.redirectService.verificarDominio();
+    this.disableZoom();
+  }
+
+  disableZoom() {
+    const viewportMetaTag = document.querySelector('meta[name="viewport"]');
+    if (viewportMetaTag) {
+      viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+    }
   }
 }

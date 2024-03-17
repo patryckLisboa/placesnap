@@ -6,17 +6,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { HomeComponent } from './home.component';
 import { LoginComponent } from './login/login.component';
 import { UserpageComponent } from './userpage/userpage.component';
-import { ContentlocationComponent } from './contentlocation/contentlocation.component';
+import { ContentlocationComponent } from './userpage/contentlocation/contentlocation.component';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { ContentcreatedComponent } from './userpage/contentcreated/contentcreated.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     LoginComponent,
     UserpageComponent,
-    ContentlocationComponent
+    ContentlocationComponent,
+    ContentcreatedComponent
   ],
   imports: [
     BrowserModule,

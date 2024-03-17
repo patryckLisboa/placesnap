@@ -40,14 +40,7 @@
   font-size: 12px;
   display: block;
 }
-.error-message {
-  position: absolute;
-  color: rgba(255, 0, 0, 0.6);
-  left: 50%;
-  margin-top: 2px;
-  width: 290px;
-  transform: translateX(-50%);
-}
+
 .container a {
   color: #333;
   font-size: 13px;
@@ -223,7 +216,7 @@
 .google {
   border: 1px solid rgb(221, 221, 221);
   padding: 10px;
-  width: 50px;
+  width: 62px;
   border-radius: 15px;
 }
 
@@ -236,7 +229,7 @@
 }
 
 .google img {
-  width: 25px;
+  width: 40px;
   transform: translateY(2px);
 }
 
@@ -254,4 +247,13 @@
   padding: 8px;
   border-radius: 15px;
   border: 1px solid #ccc;
+}
+
+.error-message {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.6);
+  left: 50%;
+  margin-top: 2px;
+  width: 290px;
+  transform: translateX(-50%);
 }

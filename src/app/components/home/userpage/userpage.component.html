@@ -45,7 +45,7 @@
         <div *ngIf="homeService.permissaoUsuario >= 2" class="container-glass">
           <button
             mat-menu-item
-            (click)="homeService.addConteudo()"
+            (click)="criacaoConteudo()"
             style="width: 150px"
           >
             <fa-icon
@@ -66,9 +66,6 @@
           class="content-container"
           *ngFor="let conteudo of homeService.conteudos"
         >
-          <!-- <div class="content-header">
-            {{ conteudo.usuarioKey }}
-          </div> -->
           <div class="content-body">
             <div class="title">
               <h2>
@@ -98,6 +95,13 @@
                       ></fa-icon>
                       <b class="label-menu-option">Gerenciar Vendas</b>
                     </button>
+                    <button mat-menu-item (click)="criacaoConteudo(conteudo)">
+                      <fa-icon
+                        class="icon-menu-option"
+                        [icon]="faPenToSquare"
+                      ></fa-icon>
+                      <b class="label-menu-option">Editar</b>
+                    </button>
                     <button
                       mat-menu-item
                       class="delete-button"
@@ -105,7 +109,11 @@
                     >
                       <fa-icon
                         class="icon-menu-option"
-                        style="left: 5px; position: relative"
+                        style="
+                          left: 5px;
+                          position: relative;
+                          font-size: 35px !important;
+                        "
                         [icon]="faXmark"
                       ></fa-icon>
                       <b class="label-menu-option">Excluir</b>
@@ -131,8 +139,24 @@
             </div>
             <!-- <div class="describe">{{ conteudo.descricao }}</div> -->
             <div class="describe">
-              "teste descrição conteudoteste descrição conteudoteste descrição
-              conteudoteste descrição conteudoteste descrição conteudo"
+              <pre style="white-space: break-spaces">{{
+                conteudo.descricao
+              }}</pre>
+            </div>
+            <div class="describe">
+              <p>
+                R$ <b>{{ conteudo.valor }}</b
+                >,00
+              </p>
+            </div>
+            <div class="describe">
+              <p>
+                <b>{{
+                  homeService.creatorContent
+                    ? homeService.creatorContent.email
+                    : ""
+                }}</b>
+              </p>
             </div>
           </div>
         </div>

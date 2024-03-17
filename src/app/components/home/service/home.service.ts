@@ -12,7 +12,7 @@ import { PaymentService } from './payment.service';
 import { ConteudocompradbService } from '../../../services/conteudocompradb/conteudocompradb.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HomeService {
   usuarioEstaLogado = false;
@@ -25,6 +25,7 @@ export class HomeService {
   usuarios: UsuarioDb[] = [];
   usuarioSubscription: Subscription | undefined;
   permissaoUsuario = 0;
+  creatorContent: any = null;
 
   constructor(
     public authService: AuthService,
@@ -33,37 +34,43 @@ export class HomeService {
     public usuariosDbService: UsuariodbService,
     public paymentService: PaymentService,
     public messageService: PMessageService,
-    public conteudocompradbService: ConteudocompradbService,
-  ) {
-  }
+    public conteudocompradbService: ConteudocompradbService
+  ) {}
 
   onInit() {
     this.userAuthSubscription = this.authService.user.subscribe((user) => {
       this.userAuth = user;
       if (this.userAuth) {
-        this.usuarioSubscription = this.usuariosDbService.getUsuarioObservableById(this.userAuth.uid).valueChanges().subscribe((usuario: UsuarioDb | null) => {
-          if(usuario){
-            if(this.usuarioEstaLogado != usuario.logado){
-              if (usuario && !usuario.logado) {
-                this.logOut();
-              }
-              this.usuarioEstaLogado = Boolean(usuario.logado);
-            }
-            if(this.usuarioEstaLogado){
-              this.permissaoUsuario = usuario.nivel_permissao || 0;
-              if(usuario.nivel_permissao == 1){
-                this.conteudos = []; 
-                if(this.paymentService.placerKey){
-                  this.consultarConteudos(this.paymentService.placerKey)
-                  this.consultarCompras()
+        this.usuarioSubscription = this.usuariosDbService
+          .getUsuarioObservableById(this.userAuth.uid)
+          .valueChanges()
+          .subscribe((usuario: UsuarioDb | null) => {
+            if (usuario) {
+              if (this.usuarioEstaLogado != usuario.logado) {
+                if (usuario && !usuario.logado) {
+                  this.logOut();
                 }
-              }else if(usuario.nivel_permissao == 2){
-                this.conteudos = []; 
-                this.consultarConteudos(this.userAuth?.uid)
+                this.usuarioEstaLogado = Boolean(usuario.logado);
+              }
+              if (this.usuarioEstaLogado) {
+                this.permissaoUsuario = usuario.nivel_permissao || 0;
+                if (usuario.nivel_permissao == 1) {
+                  this.userPageInit(this.paymentService.placerKey)
+                  this.conteudos = [];
+                  if (this.paymentService.placerKey) {
+                    this.consultarConteudos(this.paymentService.placerKey);
+                    this.consultarCompras();
+                  }
+                } else if (usuario.nivel_permissao == 2) {
+                  this.userPageInit(user.uid)
+                  this.conteudos = [];
+                  this.consultarConteudos(user.uid);
+                }
               }
             }
-          }
-        });
+          });
+      }else{
+        this.userPageFinalize();
       }
     });
   }
@@ -83,6 +90,22 @@ export class HomeService {
     }
   }
 
+  async userPageInit(userId: string){
+    const placer = await firstValueFrom(
+      this.usuariosDbService.getUsuarioById(userId)
+    );
+    if(placer){
+      this.creatorContent = placer;
+    }
+  }
+
+  userPageFinalize(){
+    this.compras = [];
+    this.conteudos = [];
+    this.usuarios = [];
+    this.creatorContent = [];
+  }
+
   consultarCompras() {
     this.comprasSubscription = this.compraDbService
       .getCompras(this.userAuth?.uid)
@@ -99,7 +122,6 @@ export class HomeService {
       });
   }
 
-
   consultarUsuarios() {
     // this.usuarioSubscription = this.usuariosDbService
     //   .getUsuarios(this.userAuth?.uid)
@@ -108,12 +130,8 @@ export class HomeService {
     //   });
   }
 
-
   async emailSignin(emailFormControl: string, passwordFormControl: string) {
-    await this.authService.emailSignin(
-      emailFormControl,
-      passwordFormControl
-    );
+    await this.authService.emailSignin(emailFormControl, passwordFormControl);
     await this.handleAcessoUsuario(true);
   }
 
@@ -127,21 +145,22 @@ export class HomeService {
           ...usuario,
           logado: false,
         });
-        if(loginValidation){
-          return this.messageService.showErrorMessage('Desconectando usuário logado em outra máquina... Faça login novamente');
+        if (loginValidation) {
+          return this.messageService.showErrorMessage(
+            'Desconectando usuário logado em outra máquina... Faça login novamente'
+          );
         }
       }
     }
-    if(loginValidation){
+    if (loginValidation) {
       await this.addCurrentUsuarioToDataBase();
+    }else{
+      this.userPageFinalize();
     }
   }
 
   async emailSignup(emailFormControl: string, passwordFormControl: string) {
-    await this.authService.emailSignup(
-      emailFormControl,
-      passwordFormControl
-    );
+    await this.authService.emailSignup(emailFormControl, passwordFormControl);
     await this.addCurrentUsuarioToDataBase();
   }
 
@@ -163,7 +182,7 @@ export class HomeService {
           logado: true,
         });
       }
-      this.usuarioEstaLogado = true
+      this.usuarioEstaLogado = true;
     }
   }
 
@@ -172,19 +191,25 @@ export class HomeService {
     await this.handleAcessoUsuario(true);
   }
 
-  async addCompra(conteudoKey : string) {
-    this.paymentService.comprar(conteudoKey, this.userAuth.uid)
+  async addCompra(conteudoKey: string) {
+    this.paymentService.comprar(conteudoKey, this.userAuth.uid);
   }
 
   removeCompra(key: string) {
     this.paymentService.cancelarCompra(key);
   }
 
-  async addConteudo() {
+  addConteudo(key: string, contentParams: ConteudoDb) {
+    if (key) {
+      this.conteudoDbService.updateConteudo(key, {
+        ...contentParams,
+        usuarioKey: this.userAuth.uid,
+      } as ConteudoDb);
+      return 
+    }
     this.conteudoDbService.addConteudo({
-      titulo: "mentoria da andressa",
+      ...contentParams,
       usuarioKey: this.userAuth.uid,
-      nivel: 1
     } as ConteudoDb);
   }
 
@@ -217,12 +242,14 @@ export class HomeService {
       const promises: Promise<void>[] = [];
       this.compras.forEach((compra) => {
         promises.push(
-          this.paymentService.cancelarCompra(compra.key || '').catch((error) => {
-            this.messageService.showErrorMessage(
-              `Erro ao excluir compra ${compra.key}: ` + error
-            );
-            throw error;
-          })
+          this.paymentService
+            .cancelarCompra(compra.key || '')
+            .catch((error) => {
+              this.messageService.showErrorMessage(
+                `Erro ao excluir compra ${compra.key}: ` + error
+              );
+              throw error;
+            })
         );
       });
 
@@ -237,18 +264,20 @@ export class HomeService {
 
   async limparConteudosUsuario(): Promise<void> {
     try {
-      if(this.permissaoUsuario < 2){
-        return
+      if (this.permissaoUsuario < 2) {
+        return;
       }
       const promises: Promise<void>[] = [];
       this.conteudos.forEach((conteudo) => {
         promises.push(
-          this.paymentService.cancelarConteudo(conteudo.key || '').catch((error) => {
-            this.messageService.showErrorMessage(
-              `Erro ao excluir conteudo ${conteudo.key}: ` + error
-            );
-            throw error;
-          })
+          this.paymentService
+            .cancelarConteudo(conteudo.key || '')
+            .catch((error) => {
+              this.messageService.showErrorMessage(
+                `Erro ao excluir conteudo ${conteudo.key}: ` + error
+              );
+              throw error;
+            })
         );
       });
 
@@ -260,5 +289,4 @@ export class HomeService {
       throw error;
     }
   }
-
 }

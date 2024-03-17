@@ -1,0 +1,115 @@
+<div class="body" [style.zoom]="getZoom()">
+  <div class="title">
+    <h1>Criação de conteúdo</h1>
+    <h2>{{ data ? "Alterar " + data.titulo : "" }}</h2>
+  </div>
+  <mat-dialog-content>
+    <div *ngIf="homeService.permissaoUsuario == 2">
+      <form [formGroup]="conteudoFormGroup" class="content">
+        <div class="input-group">
+          <label for="titulo">Título</label>
+          <input
+            placeholder="Lançamento de ..."
+            maxlength="40"
+            type="text"
+            id="titulo"
+            formControlName="titulo"
+          />
+          <div
+            *ngIf="
+              conteudoFormGroup.get('titulo').errors &&
+              conteudoFormGroup.get('titulo').touched
+            "
+            class="error-message"
+          >
+            Título é obrigatório
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="descricao">Descrição</label>
+          <textarea
+            maxlength="300"
+            id="descricao"
+            formControlName="descricao"
+            type="text"
+            placeholder="Neste conteúdo você poderá contar com ...."
+          ></textarea>
+          <div
+            *ngIf="
+              conteudoFormGroup.get('descricao').errors &&
+              conteudoFormGroup.get('descricao').touched
+            "
+            class="error-message"
+          >
+            Descrição é obrigatória e deve ter no máximo 1000 caracteres
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="nivel">Nível</label>
+          <input
+            #nivelInput
+            (input)="filtrarNumeros(nivelInput, 1, 'nivel')"
+            type="text"
+            id="nivel"
+            formControlName="nivel"
+            placeholder="1"
+          />
+          <div
+            *ngIf="
+              conteudoFormGroup.get('nivel').errors &&
+              conteudoFormGroup.get('nivel').touched
+            "
+            class="error-message"
+          >
+            Nível é obrigatório e deve estar entre 1 e 9
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="valor">Valor</label>
+          <input
+            type="text"
+            id="valor"
+            formControlName="valor"
+            placeholder="R$ 00,00"
+            #valorInput
+            (input)="filtrarNumeros(valorInput, 5, 'valor')"
+          />
+          <div
+            *ngIf="
+              conteudoFormGroup.get('valor').errors &&
+              conteudoFormGroup.get('valor').touched
+            "
+            class="error-message"
+          >
+            Valor é obrigatório e deve ser no máximo 99999
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="buttons">
+      <button
+        mat-button
+        mat-dialog-close
+        class="close-button"
+        style="color: rgba(255, 0, 0, 0.6)"
+      >
+        <b>CANCELAR</b>
+      </button>
+      <button
+        (click)="saveConteudo()"
+        mat-button
+        [disabled]="conteudoFormGroup.invalid"
+        [ngClass]="{
+          'disabled-button': !conteudoFormGroup.valid
+        }"
+        mat-dialog-close
+        cdkFocusInitial
+        style="color: white"
+      >
+        <b>SALVAR</b>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

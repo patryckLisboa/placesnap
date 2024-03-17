@@ -1,10 +1,5 @@
 <div class="body">
-  <div
-    class="container"
-    id="container"
-    [style.zoom]="getZoom()"
-    [formGroup]="loginFormGroup"
-  >
+  <div class="container" id="container" [style.zoom]="getZoom()">
     <div class="form-container sign-up">
       <div class="form">
         <h1>Crie sua Conta</h1>
@@ -12,19 +7,20 @@
           <div class="google" style="cursor: pointer" (click)="googleSignin()">
             <img
               src="../../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
-              alt=""
+              alt="Google Logo"
             />
           </div>
         </div>
         <span>ou use seu e-mail e senha</span>
         <br />
-        <div>
+        <form [formGroup]="loginFormGroup">
           <div class="input-group">
             <input
               placeholder="Email"
               formControlName="emailFormControl"
               type="email"
-              maxlength="60"
+              maxlength="60" 
+              autocomplete="new-email"
             />
             <span
               *ngIf="
@@ -51,9 +47,9 @@
               placeholder="Senha"
               formControlName="passwordFormControl"
               type="password"
-              id="password"
               name="password"
               maxlength="15"
+              autocomplete="new-password"
             />
             <span
               *ngIf="
@@ -83,9 +79,9 @@
               placeholder="Confirmação de senha"
               [formControl]="passwordConfirmFormControl"
               type="password"
-              id="password"
               name="password"
               maxlength="15"
+              autocomplete="new-password"
             />
             <span
               *ngIf="
@@ -117,7 +113,7 @@
               As senhas devem ser as mesmas.
             </span>
           </div>
-        </div>
+        </form>
         <button
           [disabled]="!loginFormGroup.valid || !successPasswordConfirm"
           class="button"
@@ -131,13 +127,13 @@
       </div>
     </div>
     <div class="form-container sign-in">
-      <div class="form">
+      <form [formGroup]="loginFormGroup" class="form">
         <h1>Login</h1>
         <div class="social-icons">
           <div class="google" style="cursor: pointer" (click)="googleSignin()">
             <img
               src="../../../../assets/img/Google__G__Logo.svg_-1024x1024.png"
-              alt=""
+              alt="Google Logo"
             />
           </div>
         </div>
@@ -150,10 +146,9 @@
               placeholder="Email"
               formControlName="emailFormControl"
               type="email"
-              id="email"
               name="email"
               maxlength="60"
-              autocomplete="email"
+              autocomplete="current-email"
             />
             <span
               *ngIf="
@@ -180,7 +175,6 @@
               placeholder="Senha"
               formControlName="passwordFormControl"
               type="password"
-              id="password"
               name="password"
               maxlength="15"
               autocomplete="current-password"
@@ -217,7 +211,7 @@
         >
           Entrar <fa-icon [icon]="faSignInAlt"></fa-icon>
         </button>
-      </div>
+      </form>
     </div>
     <div class="toggle-container">
       <div class="toggle">
@@ -229,7 +223,6 @@
           </p>
           <button
             class="button hidden"
-            id="login"
             (click)="removeActiveClass('container')"
           >
             Entrar

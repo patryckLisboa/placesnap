@@ -8,14 +8,14 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { HomeService } from '../service/home.service';
+import { HomeService } from '../../service/home.service';
 import { Subscription, firstValueFrom } from 'rxjs';
-import { ConteudocompradbService } from '../../../services/conteudocompradb/conteudocompradb.service';
-import { ConteudocompraDb } from '../../../interfaces/conteudocompra-db';
-import { CompradbService } from '../../../services/compradb/compradb.service';
-import { CompraDb } from '../../../interfaces/compra-db';
-import { UsuariodbService } from '../../../services/usuariodb/usuariodb.service';
-import { UsuarioDb } from '../../../interfaces/usuario-db';
+import { ConteudocompradbService } from '../../../../services/conteudocompradb/conteudocompradb.service';
+import { ConteudocompraDb } from '../../../../interfaces/conteudocompra-db';
+import { CompradbService } from '../../../../services/compradb/compradb.service';
+import { CompraDb } from '../../../../interfaces/compra-db';
+import { UsuariodbService } from '../../../../services/usuariodb/usuariodb.service';
+import { UsuarioDb } from '../../../../interfaces/usuario-db';
 import { ChangeDetectorRef } from '@angular/core';
 import {
   faCompress,
@@ -109,5 +109,22 @@ export class ContentlocationComponent {
     this.comprasUsuarios = this.comprasUsuarios.filter(
       (item) => item.compra.key !== compraKey
     );
+  }
+  formatarDataParaBrasileiro(dataString: string): string {
+    // Criar um objeto de data
+    const data = new Date(dataString);
+
+    // Formatar a data para o formato brasileiro
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'America/Sao_Paulo', // Definindo o fuso horário para o Brasil
+    };
+
+    return data.toLocaleString('pt-BR', options);
   }
 }

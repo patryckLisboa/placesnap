@@ -35,6 +35,9 @@ export class LoginComponent {
     ]),
   });
 
+  teste(){
+    debugger
+  }
   passwordConfirmFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
@@ -48,6 +51,11 @@ export class LoginComponent {
   }
 
   constructor(public homeService: HomeService) {}
+  
+  ngOnDestroy() {
+    this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
+  }
   
   addActiveClass(elementId: string) {
     this.loginFormGroup.reset();

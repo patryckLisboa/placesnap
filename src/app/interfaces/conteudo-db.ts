@@ -3,5 +3,6 @@ export interface ConteudoDb {
   titulo?: string;
   descricao?: string;
   usuarioKey?: string;
+  valor?: number;
   nivel?: number;
 }

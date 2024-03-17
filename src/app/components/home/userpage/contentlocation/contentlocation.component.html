@@ -11,12 +11,16 @@
           <b>
             {{ compraUsuario.usuario.email }}
           </b>
-          <div>{{ compraUsuario.compra.dataefetivacao }}</div>
+          <div>
+            {{
+              formatarDataParaBrasileiro(compraUsuario.compra.dataefetivacao || "")
+            }}
+          </div>
         </div>
         <button
           class="delete-button"
           mat-button
-          (click)="removerCompraUsuario(compraUsuario.compra.key || '') "
+          (click)="removerCompraUsuario(compraUsuario.compra.key || '')"
         >
           <fa-icon class="delete-button-icon" [icon]="faXmark"></fa-icon>
         </button>

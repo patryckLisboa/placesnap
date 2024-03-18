@@ -10,24 +10,27 @@ import { ConteudodbService } from '../../../services/conteudodb/conteudodb.servi
 import { ConteudoDb } from '../../../interfaces/conteudo-db';
 import { PaymentService } from './payment.service';
 import { ConteudocompradbService } from '../../../services/conteudocompradb/conteudocompradb.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeService {
   usuarioEstaLogado = false;
-  userAuth: any;
-  userAuthSubscription: Subscription | undefined;
-  compras: CompraDb[] = [];
-  comprasSubscription: Subscription | undefined;
-  conteudos: ConteudoDb[] = [];
-  conteudosSubscription: Subscription | undefined;
   usuarios: UsuarioDb[] = [];
   usuarioSubscription: Subscription | undefined;
   permissaoUsuario = 0;
   creatorContent: any = null;
+  userAuth: any;
+  userAuthSubscription: Subscription | undefined;
+
+  compras: CompraDb[] = [];
+  comprasSubscription: Subscription | undefined;
+  conteudos: ConteudoDb[] = [];
+  conteudosSubscription: Subscription | undefined;
 
   constructor(
+    private route: ActivatedRoute,
     public authService: AuthService,
     public conteudoDbService: ConteudodbService,
     public compraDbService: CompradbService,
@@ -40,36 +43,9 @@ export class HomeService {
   onInit() {
     this.userAuthSubscription = this.authService.user.subscribe((user) => {
       this.userAuth = user;
-      if (this.userAuth) {
-        this.usuarioSubscription = this.usuariosDbService
-          .getUsuarioObservableById(this.userAuth.uid)
-          .valueChanges()
-          .subscribe((usuario: UsuarioDb | null) => {
-            if (usuario) {
-              if (this.usuarioEstaLogado != usuario.logado) {
-                if (usuario && !usuario.logado) {
-                  this.logOut();
-                }
-                this.usuarioEstaLogado = Boolean(usuario.logado);
-              }
-              if (this.usuarioEstaLogado) {
-                this.permissaoUsuario = usuario.nivel_permissao || 0;
-                if (usuario.nivel_permissao == 1) {
-                  this.userPageInit(this.paymentService.placerKey)
-                  this.conteudos = [];
-                  if (this.paymentService.placerKey) {
-                    this.consultarConteudos(this.paymentService.placerKey);
-                    this.consultarCompras();
-                  }
-                } else if (usuario.nivel_permissao == 2) {
-                  this.userPageInit(user.uid)
-                  this.conteudos = [];
-                  this.consultarConteudos(user.uid);
-                }
-              }
-            }
-          });
-      }else{
+      if (user) {
+        this.userPageInit(user);
+      } else {
         this.userPageFinalize();
       }
     });
@@ -90,20 +66,72 @@ export class HomeService {
     }
   }
 
-  async userPageInit(userId: string){
+  async handleUsuarioDbLoginRegister(usuario: UsuarioDb) {
+    if (this.usuarioEstaLogado != usuario.logado) {
+      if (!usuario.logado) {
+        await this.authService.signOut();
+      }
+      this.usuarioEstaLogado = Boolean(usuario.logado);
+    }
+
+    if (this.usuarioEstaLogado) {
+      this.handleUserPageByPermissionLevel(usuario.nivel_permissao || 0);
+    }
+  }
+
+  async handleContentPlacer(userKey: string) {
     const placer = await firstValueFrom(
-      this.usuariosDbService.getUsuarioById(userId)
+      this.usuariosDbService.getUsuarioById(userKey)
     );
-    if(placer){
+    if (placer) {
       this.creatorContent = placer;
     }
   }
 
-  userPageFinalize(){
+  async handleUserPageByPermissionLevel(permissionLvl: number) {
+    this.permissaoUsuario = permissionLvl;
+    if (!permissionLvl) {
+      return;
+    }
+    this.conteudos = [];
+    this.compras = [];
+    this.creatorContent = null;
+    if (permissionLvl == 1) {
+      const placerKetByUrl = this.route.snapshot.queryParams['placer'];
+      if (placerKetByUrl) {
+        await this.handleContentPlacer(placerKetByUrl);
+        this.consultarConteudos(placerKetByUrl);
+        this.consultarCompras();
+        return;
+      }
+      this.logOut();
+    }
+    if (permissionLvl == 2) {
+      await this.handleContentPlacer(this.userAuth.uid);
+      this.consultarConteudos(this.userAuth.uid);
+    }
+  }
+
+  async userPageInit(user: any) {
+    this.usuarioSubscription = this.usuariosDbService
+      .getUsuarioObservableById(user.uid)
+      .valueChanges()
+      .subscribe((usuario: UsuarioDb | null) => {
+        if (!usuario) {
+          return;
+        }
+        this.handleUsuarioDbLoginRegister(usuario);
+      });
+  }
+
+  userPageFinalize() {
     this.compras = [];
     this.conteudos = [];
     this.usuarios = [];
-    this.creatorContent = [];
+    this.creatorContent = null;
+    if (this.usuarioSubscription) {
+      this.usuarioSubscription.unsubscribe();
+    }
   }
 
   consultarCompras() {
@@ -154,8 +182,6 @@ export class HomeService {
     }
     if (loginValidation) {
       await this.addCurrentUsuarioToDataBase();
-    }else{
-      this.userPageFinalize();
     }
   }
 
@@ -205,7 +231,7 @@ export class HomeService {
         ...contentParams,
         usuarioKey: this.userAuth.uid,
       } as ConteudoDb);
-      return 
+      return;
     }
     this.conteudoDbService.addConteudo({
       ...contentParams,

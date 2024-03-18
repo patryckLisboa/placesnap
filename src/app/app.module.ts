@@ -24,10 +24,11 @@ import { AndressaModule } from './components/apresentacao/andressa/andressa.modu
 import { MessagingModule } from '@angular/fire/messaging';
 import { PMessageComponent } from './shared/components/p-message/p-message.component';
 import { HomeModule } from './components/home/home.module';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { WarningComponent } from './shared/components/p-modal/warning/warning.component';
 
 @NgModule({
-  declarations: [AppComponent, PMessageComponent],
+  declarations: [AppComponent, PMessageComponent, WarningComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -46,7 +47,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     AndressaModule,
     HomeModule,
     MessagingModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

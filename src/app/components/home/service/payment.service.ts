@@ -12,16 +12,13 @@ import { PMessageService } from '../../../shared/components/p-message/p-message.
   providedIn: 'root',
 })
 export class PaymentService {
-  placerKey = '';
 
   constructor(
-    private route: ActivatedRoute,
     private conteudocompradbService: ConteudocompradbService,
     private compraDbService: CompradbService,
     private conteudoDbService: ConteudodbService,
     private messageService: PMessageService
   ) {
-    this.placerKey = this.route.snapshot.queryParams['placer'];
   }
 
   async comprar(conteudoKey: string, userId: string) {

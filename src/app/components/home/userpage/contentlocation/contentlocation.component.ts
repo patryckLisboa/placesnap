@@ -23,6 +23,7 @@ import {
   faWindowMinimize,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import { PModalService } from '../../../../shared/components/p-modal/p-modal.service';
 
 export interface ComprasUsuariosDB {
   compra: CompraDb;
@@ -38,6 +39,7 @@ export class ContentlocationComponent {
   faXmark = faXmark;
   faUserAlt = faUserAlt;
   faWindowMinimize = faWindowMinimize;
+  showEmailTooltip: boolean[] = [];
 
   comprasUsuarios: ComprasUsuariosDB[] = [];
   larguraTela = window.innerWidth;
@@ -48,8 +50,8 @@ export class ContentlocationComponent {
   }
 
   getZoom() {
-    if (this.larguraTela < 550) {
-      return this.larguraTela / 550;
+    if (this.larguraTela < 450) {
+      return this.larguraTela / 450;
     }
     return 1;
   }
@@ -59,6 +61,7 @@ export class ContentlocationComponent {
     public compradbService: CompradbService,
     public usuarioDbService: UsuariodbService,
     public homeService: HomeService,
+    public modalService: PModalService,
     private cdRef: ChangeDetectorRef,
     public dialogRef: MatDialogRef<ContentlocationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -101,9 +104,19 @@ export class ContentlocationComponent {
         compra.key = compraKey;
         this.comprasUsuarios.push({ compra, usuario });
         this.cdRef.markForCheck();
-      }
+      } 
     }
   }
+
+  removerCompraUsuarioConfirmacao(compraKey: string) {
+    this.modalService.openQuestionDialog(
+      'As informações de pagamento desta compra serão apagadas permanentemente!',
+      () => {
+        this.removerCompraUsuario(compraKey);
+      }
+    );
+  }
+
   async removerCompraUsuario(compraKey: string) {
     this.homeService.removeCompra(compraKey);
     this.comprasUsuarios = this.comprasUsuarios.filter(

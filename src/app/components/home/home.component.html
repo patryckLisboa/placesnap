@@ -1,2 +1,9 @@
-<app-login *ngIf="!homeService.userAuth"></app-login>
-<app-userpage *ngIf="homeService.userAuth"></app-userpage>
+<div
+  class="loading"
+  [ngClass]="{
+    'loading-finalize': !this.auth.loadingUser
+  }"
+>
+  <app-login *ngIf="!homeService.userAuth"></app-login>
+  <app-userpage *ngIf="homeService.userAuth"></app-userpage>
+</div>

@@ -1,0 +1,39 @@
+.body {
+  background: linear-gradient(to right, #9395ff, #9eb5ff);
+  min-width: 350px;
+}
+
+.content {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  padding: 20px 10px;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.title {
+  color: rgba(255, 0, 0, 0.5) !important;
+}
+
+.title h1 {
+  font-size: 36px;
+  text-align: center;
+  margin: 15px 0px;
+}
+
+.title h2 {
+  font-size: 25px;
+  padding: 0 30px;
+  margin: 0;
+  word-break: break-word;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

@@ -1,0 +1,29 @@
+.loading {
+  filter: blur(100px);
+  opacity: 0;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.loading-finalize {
+  animation: initial-blur 1s ease-out;
+  filter: blur(0);
+  opacity: 1;
+  cursor: unset;
+  pointer-events: unset;
+}
+
+@keyframes initial-blur {
+  from {
+    filter: blur(100px);
+    opacity: 0;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    cursor: unset;
+    pointer-events: unset;
+  }
+}

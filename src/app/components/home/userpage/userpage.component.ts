@@ -2,7 +2,15 @@ import { Component, HostListener } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { PModalService } from '../../../shared/components/p-modal/p-modal.service';
 import { ContentlocationComponent } from './contentlocation/contentlocation.component';
-import { faChartPie, faCircleLeft, faHandHoldingDollar, faPenToSquare, faPlus, faUserAlt, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChartPie,
+  faCircleLeft,
+  faHandHoldingDollar,
+  faPenToSquare,
+  faPlus,
+  faUserAlt,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { ContentcreatedComponent } from './contentcreated/contentcreated.component';
 import { firstValueFrom } from 'rxjs';
 import { UsuariodbService } from '../../../services/usuariodb/usuariodb.service';
@@ -30,7 +38,6 @@ export class UserpageComponent {
 
   larguraTela = window.innerWidth;
 
-
   @HostListener('window:resize', [])
   onResize() {
     this.larguraTela = window.innerWidth;
@@ -42,13 +49,25 @@ export class UserpageComponent {
     }
     return 1;
   }
-  
+
   abrirLocalConteudo(conteudo: any) {
-    this.modalService.openDialog(ContentlocationComponent, conteudo)
+    this.modalService.openDialog(ContentlocationComponent, conteudo);
   }
 
   criacaoConteudo(conteudo: any = null) {
-    this.modalService.openDialog(ContentcreatedComponent, conteudo)
+    this.modalService.openDialog(ContentcreatedComponent, conteudo);
   }
 
-} 
+  escluirConteudoConfirmacao(chaveConteudo: string) {
+    this.modalService.openQuestionDialog(
+      'todas as informações de pagamento do conteúdo serão perdidas permanentemente!',
+      () => {
+        this.executarExclusao(chaveConteudo);
+      }
+    );
+  }
+
+  executarExclusao(chaveUsuario: string) {
+    this.homeService.removeConteudo(chaveUsuario);
+  }
+}

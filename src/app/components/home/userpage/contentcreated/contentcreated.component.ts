@@ -60,8 +60,8 @@ export class ContentcreatedComponent {
   }
 
   getZoom() {
-    if (this.larguraTela < 550) {
-      return this.larguraTela / 550;
+    if (this.larguraTela < 450) {
+      return this.larguraTela / 450;
     }
     return 1;
   }
@@ -75,7 +75,6 @@ export class ContentcreatedComponent {
 
   ngAfterViewInit() {
     if (this.data) {
-      console.log(this.data);
       setTimeout(() => {
         this.conteudoFormGroup.patchValue(this.data);
       });

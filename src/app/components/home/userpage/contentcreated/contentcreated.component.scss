@@ -1,6 +1,6 @@
 .body {
   background: linear-gradient(to right, #9395ff, #9eb5ff);
-  min-width: 400px;
+  min-width: 350px;
 }
 
 .content {
@@ -27,8 +27,9 @@
 
 .title h2 {
   font-size: 25px;
-  padding-left: 30px;
+  padding: 0 30px;
   margin: 0;
+  word-break: break-word;
 }
 
 .buttons {

@@ -22,7 +22,7 @@ import { HomeService } from './service/home.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor(public homeService: HomeService) {}
+  constructor(public homeService: HomeService, public auth: AuthService) {}
   
   ngOnInit(){
     this.homeService.onInit();

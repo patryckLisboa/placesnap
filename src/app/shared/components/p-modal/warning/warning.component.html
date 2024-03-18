@@ -1,0 +1,31 @@
+<div class="body" [style.zoom]="getZoom()">
+  <div class="title">
+    <h1 mat-dialog-title  style="color: white">Voce tem certeza desta operação?</h1>
+  </div>
+  <mat-dialog-content>
+    <div class="content">
+      <div class="title">
+        <h2>{{ data.question }}</h2>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="buttons">
+      <button
+        mat-button
+        (click)="onCancel()"
+        class="close-button"
+        style="color: white"
+      >
+        <b>CANCELAR</b>
+      </button>
+      <button
+        (click)="onConfirm()"
+        mat-button
+        style="color: red"
+      >
+        <b>CONFIRMAR</b>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

@@ -39,7 +39,7 @@ export class ContentlocationComponent {
   faXmark = faXmark;
   faUserAlt = faUserAlt;
   faWindowMinimize = faWindowMinimize;
-  showEmailTooltip: boolean[] = [];
+  showTooltip: boolean[] = [];
 
   comprasUsuarios: ComprasUsuariosDB[] = [];
   larguraTela = window.innerWidth;
@@ -79,7 +79,6 @@ export class ContentlocationComponent {
   onDestroy(): void {}
 
   async consultarConteudoCompras() {
-    console.log(this.data);
     const conteudocompras = await firstValueFrom(
       this.conteudocompradbService.getConteudocomprasConteudo(this.data.key)
     );

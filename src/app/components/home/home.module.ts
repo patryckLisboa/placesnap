@@ -11,6 +11,7 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } fr
 import {MatMenuModule} from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { ContentcreatedComponent } from './userpage/contentcreated/contentcreated.component';
+import { PerfileditComponent } from './userpage/perfiledit/perfiledit.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ContentcreatedComponent } from './userpage/contentcreated/contentcreate
     LoginComponent,
     UserpageComponent,
     ContentlocationComponent,
-    ContentcreatedComponent
+    ContentcreatedComponent,
+    PerfileditComponent
   ],
   imports: [
     BrowserModule,

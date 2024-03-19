@@ -16,6 +16,7 @@ import { firstValueFrom } from 'rxjs';
 import { UsuariodbService } from '../../../services/usuariodb/usuariodb.service';
 import { PaymentService } from '../service/payment.service';
 import { UsuarioDb } from '../../../interfaces/usuario-db';
+import { PerfileditComponent } from './perfiledit/perfiledit.component';
 
 @Component({
   selector: 'app-userpage',
@@ -30,7 +31,7 @@ export class UserpageComponent {
   faChartPie = faChartPie;
   faPenToSquare = faPenToSquare;
   faHandHoldingDollar = faHandHoldingDollar;
-  showEmailTooltip: boolean = false;
+  showTooltip: boolean = false;
   constructor(
     public homeService: HomeService,
     private modalService: PModalService
@@ -54,17 +55,22 @@ export class UserpageComponent {
     this.modalService.openDialog(ContentlocationComponent, conteudo);
   }
 
-  criacaoConteudo(conteudo: any = null) {
+  abrirCriacaoConteudo(conteudo: any = null) {
     this.modalService.openDialog(ContentcreatedComponent, conteudo);
   }
 
+  abrirEdicaoPerfil() {
+    this.modalService.openDialog(PerfileditComponent, this.homeService.userAuth.displayName ||  this.homeService.userAuth.email);
+  }
+
+
   escluirConteudoConfirmacao(chaveConteudo: string) {
     this.modalService.openQuestionDialog(
-      'todas as informações de pagamento do conteúdo serão perdidas permanentemente!',
+      'Todas as informações de pagamento do conteúdo serão perdidas permanentemente!',
       () => {
         this.executarExclusao(chaveConteudo);
       }
-    );
+    ); 
   }
 
   executarExclusao(chaveUsuario: string) {

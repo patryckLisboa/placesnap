@@ -199,6 +199,7 @@ export class HomeService {
         await this.usuariosDbService.addUsuario({
           key: this.userAuth.uid,
           email: this.userAuth.email,
+          nome: this.userAuth.email,
           nivel_permissao: 1,
           logado: true,
         });
@@ -209,6 +210,23 @@ export class HomeService {
         });
       }
       this.usuarioEstaLogado = true;
+    }
+  }
+
+  async alterarInfosUsuarioLogado(nomeUsuairo: string, fotoPerfil: string) {
+    if (this.userAuth) {
+      const usuario = await firstValueFrom(
+        this.usuariosDbService.getUsuarioById(this.userAuth.uid)
+      );
+      if (usuario) {
+
+        await this.authService.updateProfile(nomeUsuairo, fotoPerfil);
+        await this.usuariosDbService.updateUsuario(this.userAuth.uid, {
+          ...usuario,
+          nome: nomeUsuairo,
+          // fotoPerfil
+        });
+      }
     }
   }
 

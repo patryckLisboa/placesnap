@@ -5,20 +5,23 @@
   </div>
   <mat-dialog-content>
     <div *ngIf="homeService.permissaoUsuario == 2" class="users-container">
-      <div class="user" *ngFor="let compraUsuario of comprasUsuarios; let i = index">
+      <div
+        class="user"
+        *ngFor="let compraUsuario of comprasUsuarios; let i = index"
+      >
         <div><fa-icon class="user-icon" [icon]="faUserAlt"></fa-icon></div>
         <div class="content-user">
           <div
-            (mouseover)="showEmailTooltip[i] = true"
-            (mouseout)="showEmailTooltip[i] = false"
+            (mouseover)="showTooltip[i] = true"
+            (mouseout)="showTooltip[i] = false"  
           >
             <div class="hidden-text">
               <b>
-                {{ compraUsuario.usuario.email }}
+                {{ compraUsuario.usuario.nome || compraUsuario.usuario.email }}
               </b>
             </div>
-            <div *ngIf="showEmailTooltip[i]" class="tool-tip">
-              {{ compraUsuario.usuario.email }}
+            <div *ngIf="showTooltip[i]" class="tool-tip">
+              {{ compraUsuario.usuario.nome || compraUsuario.usuario.email }}
             </div>
           </div>
 
@@ -33,7 +36,9 @@
         <button
           class="delete-button"
           mat-button
-          (click)="removerCompraUsuarioConfirmacao(compraUsuario.compra.key || '')"
+          (click)="
+            removerCompraUsuarioConfirmacao(compraUsuario.compra.key || '')
+          "
         >
           <fa-icon class="delete-button-icon" [icon]="faXmark"></fa-icon>
         </button>

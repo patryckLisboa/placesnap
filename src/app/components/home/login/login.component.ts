@@ -35,8 +35,8 @@ export class LoginComponent {
     ]),
   });
 
-  teste(){
-    debugger
+  teste() {
+    debugger;
   }
   passwordConfirmFormControl = new FormControl('', [
     Validators.required,
@@ -51,12 +51,12 @@ export class LoginComponent {
   }
 
   constructor(public homeService: HomeService) {}
-  
+
   ngOnDestroy() {
     this.loginFormGroup.reset();
     this.passwordConfirmFormControl.reset();
   }
-  
+
   addActiveClass(elementId: string) {
     this.loginFormGroup.reset();
     this.passwordConfirmFormControl.reset();
@@ -81,6 +81,7 @@ export class LoginComponent {
       this.loginFormGroup.get('passwordFormControl').value
     );
     this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
   }
 
   async emailSignin() {
@@ -89,10 +90,12 @@ export class LoginComponent {
       this.loginFormGroup.get('passwordFormControl').value
     );
     this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
   }
 
   async googleSignin() {
     await this.homeService.googleSignin();
+    this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
   }
-
 }

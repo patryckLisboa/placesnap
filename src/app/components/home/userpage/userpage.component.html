@@ -7,13 +7,13 @@
       <div>
         <div
           class="hidden-text"
-          (mouseover)="showEmailTooltip = true"
-          (mouseout)="showEmailTooltip = false"
+          (mouseover)="showTooltip = true"
+          (mouseout)="showTooltip = false"
         >
-          <b>{{ homeService.userAuth.email }}</b>
+          <b>{{ homeService.userAuth.displayName || homeService.userAuth.email }}</b>
         </div>
-        <div *ngIf="showEmailTooltip" class="tool-tip">
-          {{ homeService.userAuth.email }}
+        <div *ngIf="showTooltip" class="tool-tip">
+          {{ homeService.userAuth.displayName || homeService.userAuth.email }}
         </div>
       </div>
       <div class="menu-client-options">
@@ -26,6 +26,14 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            class="top-menu-button"
+            (click)="abrirEdicaoPerfil()"
+          >
+            <fa-icon class="icon-menu-option" [icon]="faUserAlt"></fa-icon>
+            <b class="label-menu-option"> Perfil</b>
+          </button>
           <button
             mat-menu-item
             class="top-menu-button"
@@ -44,7 +52,7 @@
         <div *ngIf="homeService.permissaoUsuario >= 2" class="container-glass">
           <button
             mat-menu-item
-            (click)="criacaoConteudo()"
+            (click)="abrirCriacaoConteudo()"
             style="width: 150px"
           >
             <fa-icon
@@ -94,7 +102,10 @@
                       ></fa-icon>
                       <b class="label-menu-option">Gerenciar Vendas</b>
                     </button>
-                    <button mat-menu-item (click)="criacaoConteudo(conteudo)">
+                    <button
+                      mat-menu-item
+                      (click)="abrirCriacaoConteudo(conteudo)"
+                    >
                       <fa-icon
                         class="icon-menu-option"
                         [icon]="faPenToSquare"
@@ -152,7 +163,8 @@
               <p>
                 <b>{{
                   homeService.creatorContent
-                    ? homeService.creatorContent.email
+                    ? homeService.creatorContent.nome ||
+                      homeService.creatorContent.email
                     : ""
                 }}</b>
               </p>

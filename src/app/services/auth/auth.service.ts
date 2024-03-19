@@ -24,6 +24,31 @@ export class AuthService {
     });
   }
 
+  private handleAuthError(error: any) {
+    let errorMessage = '';
+    switch (error.code) {
+      case 'auth/wrong-password':
+        errorMessage =
+          'Senha incorreta. Por favor, verifique suas credenciais e tente novamente.';
+        break;
+      case 'auth/user-not-found':
+        errorMessage =
+          'Usuário não encontrado. Por favor, verifique suas credenciais e tente novamente.';
+        break;
+      case 'auth/email-already-in-use':
+        errorMessage =
+          'O email fornecido já está em uso. Por favor, tente com outro email.';
+        break;
+      // Add other error cases as needed
+      default:
+        errorMessage =
+          'Ocorreu um erro ao realizar a operação. Por favor, tente novamente.';
+        break;
+    }
+    this.messageService.showErrorMessage(errorMessage);
+    this.loadingUser = false;
+  }
+
   async emailSignin(email: string, password: string) {
     try {
       this.loadingUser = true;
@@ -33,9 +58,7 @@ export class AuthService {
       );
       this.user.next(credential.user);
     } catch (error) {
-      this.messageService.showErrorMessage(
-        'Ocorreu um erro ao fazer login. Por favor, verifique suas credenciais e tente novamente.'
-      );
+      this.handleAuthError(error);
     }
   }
 
@@ -48,73 +71,65 @@ export class AuthService {
       );
       this.user.next(credential.user);
     } catch (error) {
-      this.messageService.showErrorMessage(
-        'Ocorreu um erro ao criar a conta. Por favor, tente novamente mais tarde.'
-      );
+      this.handleAuthError(error);
     }
   }
 
   async googleSignin() {
     try {
-      const provider = new firebase.auth.GoogleAuthProvider();
       this.loadingUser = true;
+      const provider = new firebase.auth.GoogleAuthProvider();
       const credential = await this.auth.signInWithPopup(provider);
       this.user.next(credential.user);
     } catch (error) {
-      this.messageService.showErrorMessage(
-        'Ocorreu um erro ao fazer login com o Google. Por favor, tente novamente.'
-      );
+      this.handleAuthError(error);
     }
   }
 
-  async updateProfile(usuario: UsuarioDb) {
+  async updateProfile(nomeUsuario: string, fotoPerfil: string) {
     try {
-      const user: any = this.auth.currentUser;
+      this.loadingUser = true;
+      const user = await this.auth.currentUser;
       if (user) {
-        const { nome, telefone1, telefone2, nivel_permissao } = usuario;
-        await user.updateProfile({
-          displayName: nome || null,
-          phoneNumber: telefone1 || null,
-          customMetadata: {
-            telefone2: telefone2 || null,
-            nivel_permissao: nivel_permissao || null,
-          },
+        const credential = await user.updateProfile({
+          displayName: nomeUsuario,
+          // photoURL: fotoPerfil  > validar se a url está correta
         });
+        this.loadingUser = false;
+      } else {
+        this.messageService.showErrorMessage(
+          'Nenhum usuário está autenticado no momento.'
+        );
+        this.loadingUser = false;
+      }
+    } catch (error) {
+      this.handleAuthError(error);
+    }
+  }
+
+  async signOut() {
+    try {
+      this.loadingUser = true;
+      await this.auth.signOut();
+      this.user.next(null);
+    } catch (error) {
+      this.handleAuthError(error);
+    }
+  }
+
+  async deleteCurrentUser() {
+    try {
+      this.loadingUser = true;
+      if (this.user.value) {
+        await this.user.value.delete();
+        this.user.next(null);
       } else {
         this.messageService.showErrorMessage(
           'Nenhum usuário está autenticado no momento.'
         );
       }
     } catch (error) {
-      this.messageService.showErrorMessage(
-        'Ocorreu um erro ao atualizar seus dados de usuário. Por favor, tente novamente.'
-      );
-    }
-  }
-
-  async signOut() {
-    try {
-      await this.auth.signOut();
-      this.user.next(null);
-    } catch (error) {
-      this.messageService.showErrorMessage(
-        'Ocorreu um erro ao sair. Por favor, tente novamente.'
-      );
-    }
-  }
-
-  async deleteCurrentUser() {
-    try {
-      if (this.user.value) {
-        await this.user.value.delete();
-        this.user.next(null);
-      } else {
-        throw new Error('Nenhum usuário está autenticado no momento.');
-      }
-    } catch (error) {
-      this.messageService.showErrorMessage(
-        'Ocorreu um erro ao excluir a conta. Por favor, tente novamente.'
-      );
+      this.handleAuthError(error);
     }
   }
 }

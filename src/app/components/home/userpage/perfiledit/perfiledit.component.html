@@ -1,0 +1,55 @@
+<div class="body" [style.zoom]="getZoom()">
+  <div class="title">
+    <h1>Meu Perfil</h1>
+  </div>
+  <mat-dialog-content>
+    <div>
+      <div class="content">
+        <div>
+          <div class="top-circle">
+            <div>
+              <fa-icon [icon]="faUserAlt"></fa-icon>
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Nome</label>
+          <input
+            type="name"
+            autocomplete="new-name"
+            [formControl]="nome"
+            placeholder="Como voce deseja ser chamado?"
+            maxlength="60"
+          />
+          <div *ngIf="nome.errors && nome.touched" class="error-message">
+            Nome é obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="buttons">
+      <button
+        mat-button
+        mat-dialog-close
+        class="close-button"
+        style="color: rgba(255, 0, 0, 0.6)"
+      >
+        <b>CANCELAR</b>
+      </button>
+      <button
+        (click)="saveUsuario()"
+        mat-button
+        [disabled]="nome.invalid"
+        [ngClass]="{
+          'disabled-button': !nome.valid
+        }"
+        mat-dialog-close
+        style="color: white"
+      >
+        <b>SALVAR</b>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

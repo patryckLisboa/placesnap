@@ -1,3 +1,28 @@
+.loading-gif {
+  border: 4px solid transparent;
+  border-radius: 50%;
+  border: 5px double #3498db71;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 .loading {
   filter: blur(100px);
   opacity: 0;

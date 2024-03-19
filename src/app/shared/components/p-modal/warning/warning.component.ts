@@ -27,7 +27,6 @@ export class WarningComponent {
   }
 
   onConfirm(): void {
-    console.log(this.data.execute);
     this.data.execute();
     this.dialogRef.close();
   }

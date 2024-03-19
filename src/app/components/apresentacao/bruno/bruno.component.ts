@@ -11,7 +11,7 @@ export class BrunoComponent {
 
   navigateToHome() {
     this.router.navigate(['/home'], {
-      queryParams: { placer: 'zu2B9z9K2XRiZxmIsR7ezJCxbcL2' },
+      queryParams: { placer: 'fulano@domain.com' },
     });
   }
 }

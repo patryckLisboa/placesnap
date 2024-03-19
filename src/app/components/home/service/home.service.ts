@@ -79,9 +79,9 @@ export class HomeService {
     }
   }
 
-  async handleContentPlacer(userKey: string) {
+  async handleContentPlacer(userEmail: string) {
     const placer = await firstValueFrom(
-      this.usuariosDbService.getUsuarioById(userKey)
+      this.usuariosDbService.getUsuarioByEmail(userEmail)
     );
     if (placer) {
       this.creatorContent = placer;
@@ -97,17 +97,17 @@ export class HomeService {
     this.compras = [];
     this.creatorContent = null;
     if (permissionLvl == 1) {
-      const placerKetByUrl = this.route.snapshot.queryParams['placer'];
-      if (placerKetByUrl) {
-        await this.handleContentPlacer(placerKetByUrl);
-        this.consultarConteudos(placerKetByUrl);
+      const placerEmailByUrl = this.route.snapshot.queryParams['placer'];
+      if (placerEmailByUrl) {
+        await this.handleContentPlacer(placerEmailByUrl);
+        this.consultarConteudos(this.creatorContent.key);
         this.consultarCompras();
         return;
       }
       this.logOut();
     }
     if (permissionLvl == 2) {
-      await this.handleContentPlacer(this.userAuth.uid);
+      await this.handleContentPlacer(this.userAuth.email);
       this.consultarConteudos(this.userAuth.uid);
     }
   }

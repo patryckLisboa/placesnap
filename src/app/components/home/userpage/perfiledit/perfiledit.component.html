@@ -7,9 +7,10 @@
       <div class="content">
         <div>
           <div class="top-circle">
-            <div>
+            <div *ngIf="false">
               <fa-icon [icon]="faUserAlt"></fa-icon>
             </div>
+            <app-p-imageupload [email]="email" (handleImgUrl)="setImageUrl($event)"></app-p-imageupload>
           </div>
         </div>
         <div class="input-group">

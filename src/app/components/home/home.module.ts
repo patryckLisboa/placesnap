@@ -12,6 +12,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { ContentcreatedComponent } from './userpage/contentcreated/contentcreated.component';
 import { PerfileditComponent } from './userpage/perfiledit/perfiledit.component';
+import { PImageuploadComponent } from '../../shared/components/p-imageupload/p-imageupload.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PerfileditComponent } from './userpage/perfiledit/perfiledit.component'
     UserpageComponent,
     ContentlocationComponent,
     ContentcreatedComponent,
-    PerfileditComponent
+    PerfileditComponent,
+    PImageuploadComponent
   ],
   imports: [
     BrowserModule,

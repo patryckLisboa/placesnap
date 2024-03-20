@@ -25,21 +25,23 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ConteudodbService } from '../../../../services/conteudodb/conteudodb.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PImageuploadService } from '../../../../shared/components/p-imageupload/p-imageupload.service';
 
 @Component({
   selector: 'app-perfiledit',
   templateUrl: './perfiledit.component.html',
-  styleUrls: ['./perfiledit.component.scss']
+  styleUrls: ['./perfiledit.component.scss'],
 })
 export class PerfileditComponent {
   faXmark = faXmark;
   faUserAlt = faUserAlt;
   faWindowMinimize = faWindowMinimize;
   larguraTela = window.innerWidth;
-
+  email = '';
+  urlImageToSave: any;
   nome: FormControl = new FormControl('', [
     Validators.required,
-    Validators.maxLength(60)
+    Validators.maxLength(60),
   ]);
 
   @HostListener('window:resize', [])
@@ -57,9 +59,12 @@ export class PerfileditComponent {
   constructor(
     public conteudodbService: ConteudodbService,
     public homeService: HomeService,
+    private imageUploadService: PImageuploadService,
     public dialogRef: MatDialogRef<PerfileditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.email = this.homeService.userAuth.email;
+  }
 
   ngAfterViewInit() {
     if (this.data) {
@@ -73,10 +78,18 @@ export class PerfileditComponent {
     this.nome.reset();
   }
 
-  saveUsuario() {
+  async saveUsuario() {
+    const urlToFireStorage = await this.imageUploadService.uploadImage(
+      this.email,
+      this.urlImageToSave
+    );
     this.homeService.alterarInfosUsuarioLogado(
       this.nome.value,
-      "",
+      urlToFireStorage || ''
     );
+  }
+
+  setImageUrl(event: File | null) {
+    this.urlImageToSave = event;
   }
 }

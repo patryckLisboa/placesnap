@@ -6,6 +6,7 @@ export interface UsuarioDb {
     telefone1?: string;
     telefone2?: string;
     nivel_permissao?: number;
+    foto_perfil?: string;
     logado?: boolean;
   }
   

@@ -91,9 +91,10 @@ export class AuthService {
       this.loadingUser = true;
       const user = await this.auth.currentUser;
       if (user) {
-        const credential = await user.updateProfile({
+        console.log(fotoPerfil)
+        await user.updateProfile({
           displayName: nomeUsuario,
-          // photoURL: fotoPerfil  > validar se a url está correta
+          // photoURL: fotoPerfil
         });
         this.loadingUser = false;
       } else {

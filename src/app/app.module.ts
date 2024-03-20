@@ -22,6 +22,8 @@ import { AuthService } from './services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
 import { AndressaModule } from './components/apresentacao/andressa/andressa.module';
 import { MessagingModule } from '@angular/fire/messaging';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+
 import { PMessageComponent } from './shared/components/p-message/p-message.component';
 import { HomeModule } from './components/home/home.module';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -38,6 +40,7 @@ import { WarningComponent } from './shared/components/p-modal/warning/warning.co
     FontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    AngularFireStorageModule,
     AngularFireDatabaseModule,
     MatSnackBarModule,
     MatButtonModule,

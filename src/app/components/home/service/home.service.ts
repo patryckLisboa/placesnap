@@ -213,20 +213,20 @@ export class HomeService {
     }
   }
 
-  async alterarInfosUsuarioLogado(nomeUsuairo: string, fotoPerfil: string) {
+  async alterarInfosUsuarioLogado(nomeUsuairo: string, foto_perfil: string) {
     if (this.userAuth) {
       const usuario = await firstValueFrom(
         this.usuariosDbService.getUsuarioById(this.userAuth.uid)
       );
       if (usuario) {
 
-        await this.authService.updateProfile(nomeUsuairo, fotoPerfil);
+        await this.authService.updateProfile(nomeUsuairo, foto_perfil);
         await this.usuariosDbService.updateUsuario(this.userAuth.uid, {
           ...usuario,
           nome: nomeUsuairo,
-          // fotoPerfil
+          foto_perfil,
         });
-      }
+      } 
     }
   }
 

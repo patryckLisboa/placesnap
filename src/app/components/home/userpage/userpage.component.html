@@ -1,16 +1,16 @@
 <div class="body">
   <div [style.zoom]="getZoom()" class="content-user">
     <div class="top-circle">
-      <div>
-        <fa-icon [icon]="faUserAlt"></fa-icon>
-      </div>
+      <div class="perfil-image"><app-p-imageupload [initialUrl]="homeService.userAuth.photoURL" [clickable]="false"></app-p-imageupload></div>
       <div>
         <div
           class="hidden-text"
           (mouseover)="showTooltip = true"
           (mouseout)="showTooltip = false"
         >
-          <b>{{ homeService.userAuth.displayName || homeService.userAuth.email }}</b>
+          <b>{{
+            homeService.userAuth.displayName || homeService.userAuth.email
+          }}</b>
         </div>
         <div *ngIf="showTooltip" class="tool-tip">
           {{ homeService.userAuth.displayName || homeService.userAuth.email }}

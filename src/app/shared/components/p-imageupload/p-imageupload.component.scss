@@ -1,71 +1,100 @@
-.upload-container {
+.circle-container {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px double #c9d6ff;
+}
+
+.circle {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.perfil-icon {
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 200px;
-  margin-top: 22.5px;
+  background-color: #c9d6ff;
 }
 
-.upload-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.perfil-icon fa-icon {
+  font-size: 190px;
+  transform: translateY(-10px);
+  color: rgba(0, 0, 0, 0.6);
 }
 
-.upload-btn:hover {
-  background-color: #0056b3;
-}
-
-.file-input {
-  width: 100%;
+.perfil-upload {
   height: 100%;
+  width: 100%;
 }
 
-.preview-image {
-  max-width: 100%;
-  margin-top: 10px;
+.upload-input {
+  position: absolute;
 }
 
-//
-
-input {
+.upload-input input {
   opacity: 0;
-  width: 100%;
-  height: 100%;
   position: relative;
-  z-index: 2;
-}:hover {
-  animation-name: fadeIn;
-  animation-duration: 1s;
-  background-image: url('../../../../assets/img/camera-icon-android-20.jpg');
-  background-size: cover;
-  background-position: center;
+  z-index: 1;
+  width: 300px;
+  height: 300px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-img {
-  aspect-ratio: 1;
-  object-fit: cover;
+.perfil-image {
+  height: 100%;
   width: 100%;
-  transform: translateY(-100%);
-  border-radius: 999px;
-  outline: 5px solid #c9d6ff;
-  cursor: pointer;
-  transition: 200ms ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c9d6ff;
 }
 
-img:hover {
-  outline: 10px solid #c9d6ff;
+.perfil-image img {
+  height: 100%;
 }
+
+// .file-input {
+//   width: 100%;
+//   height: 100%;
+// }
+// //
+
+// .top-circle {
+//   border-radius: 150px;
+//   color: #c9d6ff;
+//   display: flex;
+//   align-items: center;
+//   gap: 30px;
+//   justify-content: center;
+//   height: 220px;
+// }
+
+// .perfil-upload:hover,
+// .perfil-upload:active {
+//   filter: blur(2px);
+// }
+
+// .top-circle {
+//   border-radius: 150px;
+//   color: #c9d6ff;
+//   display: flex;
+//   align-items: center;
+//   gap: 30px;
+//   justify-content: center;
+//   height: 200px;
+//   padding-bottom: 20px;
+//   border: 5px solid #c9d6ff;
+// }
+
+// .perfil-upload {
+//   // position: absolute;
+// }
+
+// // .container-circle:hover,
+// // .container-circle:active {
+// //   filter: blur(2px);
+// // }

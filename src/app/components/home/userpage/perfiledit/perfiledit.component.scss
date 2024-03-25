@@ -28,7 +28,6 @@
   margin: 15px 0px;
 }
 
-
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -71,22 +70,4 @@
   color: darkgrey;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-.top-circle {
-  border-radius: 150px;
-  color: #c9d6ff;
-  background: linear-gradient(to right, #5c6bc0, #512da8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  height: 250px;
-}
-
-.top-circle fa-icon {
-  font-size: 100px;
-  border: 5px solid #c9d6ff;
-  border-radius: 50%;
-  padding: 20px;
 }

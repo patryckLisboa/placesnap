@@ -45,12 +45,12 @@
   font-size: 30px;
 }
 
-.top-circle fa-icon {
-  font-size: 100px;
-  border: 5px solid #c9d6ff;
-  border-radius: 50%;
-  padding: 20px;
-}
+// .top-circle fa-icon {
+//   font-size: 100px;
+//   border: 5px solid #c9d6ff;
+//   border-radius: 50%;
+//   padding: 20px;
+// }
 
 .content-user {
   max-width: 1250px;
@@ -159,6 +159,9 @@ p {
   z-index: 1;
 }
 
+.perfil-image {
+  transform: scale(0.5) translateY(50%);
+}
 @media (max-width: 750px) {
   .header-list-content {
     flex-direction: column;

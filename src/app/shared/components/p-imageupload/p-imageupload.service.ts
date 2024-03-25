@@ -12,7 +12,6 @@ export class PImageuploadService {
   constructor(private storage: AngularFireStorage) {}
 
   async uploadImage(email: string, selectedFile: File): Promise<string | null> {
-    debugger
     if (!email || !selectedFile) {
       console.error('Email or selected file is null.');
       return null;

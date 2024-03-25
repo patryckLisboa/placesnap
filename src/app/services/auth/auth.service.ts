@@ -94,7 +94,7 @@ export class AuthService {
         console.log(fotoPerfil)
         await user.updateProfile({
           displayName: nomeUsuario,
-          // photoURL: fotoPerfil
+          photoURL: fotoPerfil
         });
         this.loadingUser = false;
       } else {

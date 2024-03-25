@@ -5,14 +5,10 @@
   <mat-dialog-content>
     <div>
       <div class="content">
-        <div>
-          <div class="top-circle">
-            <div *ngIf="false">
-              <fa-icon [icon]="faUserAlt"></fa-icon>
-            </div>
-            <app-p-imageupload [email]="email" (handleImgUrl)="setImageUrl($event)"></app-p-imageupload>
-          </div>
-        </div>
+        <app-p-imageupload
+          [initialUrl]="homeService.userAuth.photoURL"
+          (handleImgUrl)="setImageUrl($event)"
+        ></app-p-imageupload>
         <div class="input-group">
           <label>Nome</label>
           <input

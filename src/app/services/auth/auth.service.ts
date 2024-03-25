@@ -86,6 +86,18 @@ export class AuthService {
     }
   }
 
+  async facebookSignin() {
+    try {
+      this.loadingUser = true;
+      const provider = new firebase.auth.FacebookAuthProvider();
+      const credential = await this.auth.signInWithPopup(provider);
+      this.user.next(credential.user);
+    } catch (error) {
+      this.messageService.showErrorMessage("Esta funcionalidade está temporariamente fora do ar, tente efetuar o login com sua conta Google ou email e senha.");
+      this.loadingUser = false;
+    }
+  }
+
   async updateProfile(nomeUsuario: string, fotoPerfil: string) {
     try {
       this.loadingUser = true;

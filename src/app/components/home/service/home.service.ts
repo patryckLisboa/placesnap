@@ -235,6 +235,12 @@ export class HomeService {
     await this.handleAcessoUsuario(true);
   }
 
+  
+  async facebookSignin() {
+    await this.authService.facebookSignin();
+    await this.handleAcessoUsuario(true);
+  }
+
   async addCompra(conteudoKey: string) {
     this.paymentService.comprar(conteudoKey, this.userAuth.uid);
   }

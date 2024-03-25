@@ -98,4 +98,10 @@ export class LoginComponent {
     this.loginFormGroup.reset();
     this.passwordConfirmFormControl.reset();
   }
+
+  async facebookSignin() {
+    await this.homeService.facebookSignin();
+    this.loginFormGroup.reset();
+    this.passwordConfirmFormControl.reset();
+  }
 }

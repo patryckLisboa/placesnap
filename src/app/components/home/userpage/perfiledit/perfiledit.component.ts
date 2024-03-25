@@ -79,14 +79,16 @@ export class PerfileditComponent {
   }
 
   async saveUsuario() {
+    this.homeService.authService.loadingUser = true;
     const urlToFireStorage = await this.imageUploadService.uploadImage(
       this.email,
       this.urlImageToSave
     );
-    this.homeService.alterarInfosUsuarioLogado(
+    await this.homeService.alterarInfosUsuarioLogado(
       this.nome.value,
       urlToFireStorage || ''
     );
+    this.homeService.authService.loadingUser = false;
   }
 
   setImageUrl(event: File | null) {

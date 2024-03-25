@@ -93,21 +93,59 @@ export class AuthService {
       const credential = await this.auth.signInWithPopup(provider);
       this.user.next(credential.user);
     } catch (error) {
-      this.messageService.showErrorMessage("Esta funcionalidade está temporariamente fora do ar, tente efetuar o login com sua conta Google ou email e senha.");
+      this.messageService.showErrorMessage(
+        'Esta funcionalidade está temporariamente fora do ar, tente efetuar o login com sua conta Google ou email e senha.'
+      );
       this.loadingUser = false;
     }
   }
 
-  async updateProfile(nomeUsuario: string, fotoPerfil: string) {
+  async updateProfile(
+    nomeUsuario: string,
+    fotoPerfil: string | null | undefined
+  ) {
     try {
       this.loadingUser = true;
       const user = await this.auth.currentUser;
       if (user) {
-        console.log(fotoPerfil)
-        await user.updateProfile({
-          displayName: nomeUsuario,
-          photoURL: fotoPerfil
-        });
+        await user.updateProfile(
+          fotoPerfil
+            ? {
+                displayName: nomeUsuario,
+                photoURL: fotoPerfil,
+              }
+            : {
+                displayName: nomeUsuario,
+              }
+        );
+        this.loadingUser = false;
+      } else {
+        this.messageService.showErrorMessage(
+          'Nenhum usuário está autenticado no momento.'
+        );
+        this.loadingUser = false;
+      }
+    } catch (error) {
+      this.handleAuthError(error);
+    }
+  }
+
+  async changePassword(currentPassword: string, newPassword: string) {
+    try {
+      this.loadingUser = true;
+      const user = await this.auth.currentUser;
+
+      if (user) {
+        // Primeiro, reautentica o usuário para confirmar a senha atual
+        const credential = firebase.auth.EmailAuthProvider.credential(
+          user.email || '',
+          currentPassword
+        );
+        await user.reauthenticateWithCredential(credential);
+
+        // Em seguida, atualiza a senha
+        await user.updatePassword(newPassword);
+
         this.loadingUser = false;
       } else {
         this.messageService.showErrorMessage(

@@ -162,6 +162,11 @@ p {
 .perfil-image {
   transform: scale(0.5) translateY(60%);
 }
+
+.image-perfil-placer {
+  zoom: 30%;
+  text-align: -webkit-center;
+}
 @media (max-width: 750px) {
   .header-list-content {
     flex-direction: column;

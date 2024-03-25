@@ -3,6 +3,7 @@
     <div class="perfil-upload">
       <div class="upload-input" *ngIf="clickable">
         <input
+          [ngStyle]="clickable ? { cursor: 'pointer' } : null"
           id="file-input"
           (change)="onFileSelected($event)"
           accept="image/*"

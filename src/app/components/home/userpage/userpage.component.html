@@ -1,7 +1,12 @@
 <div class="body">
   <div [style.zoom]="getZoom()" class="content-user">
     <div class="top-circle">
-      <div class="perfil-image"><app-p-imageupload [initialUrl]="homeService.userAuth.photoURL" [clickable]="false"></app-p-imageupload></div>
+      <div class="perfil-image">
+        <app-p-imageupload
+          [initialUrl]="homeService.userAuth.photoURL"
+          [clickable]="false"
+        ></app-p-imageupload>
+      </div>
       <div>
         <div
           class="hidden-text"
@@ -48,7 +53,30 @@
     <div class="list-content-container">
       <div class="header-list-content">
         <div style="width: 160px"></div>
-        <h2>Área de conteúdos</h2>
+        <div>
+          <div
+            class="image-perfil-placer"
+            *ngIf="homeService.permissaoUsuario == 1"
+          >
+            <app-p-imageupload
+              [initialUrl]="
+                homeService.creatorContent
+                  ? homeService.creatorContent.foto_perfil
+                  : null
+              "
+              [clickable]="false"
+            ></app-p-imageupload>
+            <h1>
+              <b>{{
+                homeService.creatorContent
+                  ? homeService.creatorContent.nome ||
+                    homeService.creatorContent.email
+                  : ""
+              }}</b>
+            </h1>
+          </div>
+          <h2 style="text-align: center">Área de conteúdos</h2>
+        </div>
         <div *ngIf="homeService.permissaoUsuario >= 2" class="container-glass">
           <button
             mat-menu-item
@@ -154,20 +182,10 @@
               }}</pre>
             </div>
             <div class="describe">
-              <p>
-                R$ <b>{{ conteudo.valor }}</b
+              <div style="text-align: center;">
+                R$ <h2 style="display: inline-block; margin-bottom: unset; margin-top: 20px;"><b>{{ conteudo.valor }}</b></h2
                 >,00
-              </p>
-            </div>
-            <div class="describe">
-              <p>
-                <b>{{
-                  homeService.creatorContent
-                    ? homeService.creatorContent.nome ||
-                      homeService.creatorContent.email
-                    : ""
-                }}</b>
-              </p>
+              </div>
             </div>
           </div>
         </div>

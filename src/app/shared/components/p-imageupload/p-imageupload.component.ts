@@ -1,7 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs/operators';
-import { PImageuploadService } from './p-imageupload.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -35,6 +32,7 @@ export class PImageuploadComponent {
       border: "10px double #c9d6ff",
     };
   }
+  
   onFileSelected(event: any) {
     if (event.target.files.length) {
       const selectedFile: File = event.target.files[0];

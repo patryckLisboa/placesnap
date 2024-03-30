@@ -44,4 +44,13 @@ export class RedirectService {
   public navigateToRoot(): void {
     this.router.navigate(['/']);
   }
+
+  navigateToHome(placer: any = null) {
+    if (placer) {
+      return this.router.navigate(['/home'], {
+        queryParams: { placer: placer }, //jeovana.silvajeovanasilvajeova@gmail.com
+      });
+    }
+    return this.navigateToRoot();
+  }
 }

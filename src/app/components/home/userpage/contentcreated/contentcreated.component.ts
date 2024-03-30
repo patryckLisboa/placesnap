@@ -76,7 +76,8 @@ export class ContentcreatedComponent {
   ngAfterViewInit() {
     if (this.data) {
       setTimeout(() => {
-        this.conteudoFormGroup.patchValue(this.data);
+        const valor = this.monetarioParaValorBrasileiro(this.data.valor);
+        this.conteudoFormGroup.patchValue({ ...this.data, valor });
       });
     }
   }
@@ -86,14 +87,43 @@ export class ContentcreatedComponent {
   }
 
   saveConteudo() {
+    const valor = this.monetarioParaValorNumerico(
+      this.conteudoFormGroup.get('valor').value
+    );
     const descricao = this.conteudoFormGroup.get('descricao').value;
     this.homeService.addConteudo(this.data?.key, {
       ...this.conteudoFormGroup.value,
       descricao,
+      valor,
     });
   }
 
-  filtrarNumeros(
+  monetarioParaValorNumerico(valor: string): number {
+    // Remove o símbolo 'R$' e substitui vírgula por ponto
+    const valorNumerico = parseFloat(
+      valor.replace(/[^\d,]/g, '').replace(',', '.')
+    );
+
+    // Retorna o valor numérico
+    return isNaN(valorNumerico) ? 0 : valorNumerico;
+  }
+
+  monetarioParaValorBrasileiro(valor: number | bigint): string {
+    // Arredonda o valor para duas casas decimais
+    const valorArredondado = Number(valor).toFixed(2);
+
+    // Converte o valor para uma string com separador de milhares e vírgula como separador decimal
+    const partes = valorArredondado.split('.');
+    const inteiro = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const decimal = partes[1];
+
+    // Formata a string com o símbolo de moeda brasileiro
+    const valorFormatado = 'R$ ' + inteiro + ',' + decimal;
+
+    return valorFormatado;
+  }
+
+  filtrarNumerosInteiros(
     input: HTMLInputElement,
     maxLength = 0,
     inputFormControl: string
@@ -109,4 +139,44 @@ export class ContentcreatedComponent {
     this.conteudoFormGroup.get(inputFormControl).setValue(valor);
   }
 
+  filtrarNumeros(
+    input: HTMLInputElement,
+    maxLength = 0,
+    inputFormControl: string
+  ) {
+    if (!maxLength) {
+      return;
+    }
+    let valor = input.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+    valor = valor.replace(/^0+/, ''); // Remove os zeros à esquerda
+    valor = valor.slice(0, maxLength + 2); // Limita o número de caracteres antes da vírgula
+
+    // Adiciona a vírgula e os centavos
+    if (valor.length > 2) {
+      valor = valor.slice(0, -2) + ',' + valor.slice(-2);
+    } else if (valor.length === 2) {
+      valor = '0,' + valor;
+    } else if (!valor.length) {
+      valor = '0,00' + valor;
+    } else {
+      valor = '0,0' + valor;
+    }
+
+    // Adiciona o ponto de milhar, se necessário
+    if (valor.length > 6) {
+      valor = valor.slice(0, -6) + '.' + valor.slice(-6);
+    }
+
+    // Adiciona o "R$" antes do valor
+    valor = 'R$ ' + valor;
+
+    // Exibe "R$ 00,00" quando não houver valor
+    if (valor === 'R$ ,') {
+      valor = 'R$ 00,00';
+    }
+
+    // Atualiza o valor no campo de entrada e no formulário
+    input.value = valor;
+    this.conteudoFormGroup.get(inputFormControl).setValue(valor);
+  }
 }

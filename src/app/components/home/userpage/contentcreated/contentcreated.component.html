@@ -48,7 +48,7 @@
           <label for="nivel">Nível</label>
           <input
             #nivelInput
-            (input)="filtrarNumeros(nivelInput, 1, 'nivel')"
+            (input)="filtrarNumerosInteiros(nivelInput, 1, 'nivel')"
             type="text"
             id="nivel"
             formControlName="nivel"
@@ -70,7 +70,7 @@
             type="text"
             id="valor"
             formControlName="valor"
-            placeholder="R$ 00,00"
+            placeholder="R$ 0,00"
             #valorInput
             (input)="filtrarNumeros(valorInput, 5, 'valor')"
           />

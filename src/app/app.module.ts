@@ -16,7 +16,7 @@ import {
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
 
-// import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
 import { AuthService } from './services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +28,7 @@ import { PMessageComponent } from './shared/components/p-message/p-message.compo
 import { HomeModule } from './components/home/home.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { WarningComponent } from './shared/components/p-modal/warning/warning.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, PMessageComponent, WarningComponent],
@@ -51,6 +52,8 @@ import { WarningComponent } from './shared/components/p-modal/warning/warning.co
     HomeModule,
     MessagingModule,
     MatDialogModule,
+    HttpClientModule,
+    AngularFirestoreModule
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

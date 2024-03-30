@@ -11,6 +11,9 @@ import { ConteudoDb } from '../../../interfaces/conteudo-db';
 import { PaymentService } from './payment.service';
 import { ConteudocompradbService } from '../../../services/conteudocompradb/conteudocompradb.service';
 import { ActivatedRoute } from '@angular/router';
+import { RedirectService } from '../../../services/redirect/redirect.service';
+import { ImagestorageService } from '../../../services/imagestorage/imagestorage.service';
+import { FirestoreStripePaymentsService } from './firestore-stripe-payments.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,8 +39,11 @@ export class HomeService {
     public compraDbService: CompradbService,
     public usuariosDbService: UsuariodbService,
     public paymentService: PaymentService,
+    public imagestorageService: ImagestorageService,
     public messageService: PMessageService,
-    public conteudocompradbService: ConteudocompradbService
+    public conteudocompradbService: ConteudocompradbService,
+    public firestoreStripePaymentsService: FirestoreStripePaymentsService,
+    public redirects: RedirectService
   ) {}
 
   onInit() {
@@ -122,6 +128,8 @@ export class HomeService {
         }
         this.handleUsuarioDbLoginRegister(usuario);
       });
+
+    this.firestoreStripePaymentsService.onCurrentUserSubscriptionUpdate();
   }
 
   userPageFinalize() {
@@ -202,7 +210,7 @@ export class HomeService {
           nome: this.userAuth.email,
           nivel_permissao: 1,
           logado: true,
-          foto_perfil: this.userAuth.photoURL
+          foto_perfil: this.userAuth.photoURL,
         });
       } else {
         await this.usuariosDbService.updateUsuario(this.userAuth.uid, {
@@ -214,23 +222,30 @@ export class HomeService {
     }
   }
 
-  async alterarInfosUsuarioLogado(nomeUsuairo: string, foto_perfil: string | null | undefined) {
+  async alterarInfosUsuarioLogado(
+    nomeUsuairo: string,
+    foto_perfil: string | null | undefined
+  ) {
     if (this.userAuth) {
       const usuario = await firstValueFrom(
         this.usuariosDbService.getUsuarioById(this.userAuth.uid)
       );
       if (usuario) {
-
         await this.authService.updateProfile(nomeUsuairo, foto_perfil);
-        await this.usuariosDbService.updateUsuario(this.userAuth.uid, foto_perfil ? {
-          ...usuario,
-          nome: nomeUsuairo,
-          foto_perfil,
-        } : {
-          ...usuario,
-          nome: nomeUsuairo,
-        });
-      } 
+        await this.usuariosDbService.updateUsuario(
+          this.userAuth.uid,
+          foto_perfil
+            ? {
+                ...usuario,
+                nome: nomeUsuairo,
+                foto_perfil,
+              }
+            : {
+                ...usuario,
+                nome: nomeUsuairo,
+              }
+        );
+      }
     }
   }
 
@@ -239,14 +254,13 @@ export class HomeService {
     await this.handleAcessoUsuario(true);
   }
 
-  
   async facebookSignin() {
     await this.authService.facebookSignin();
     await this.handleAcessoUsuario(true);
   }
 
-  async addCompra(conteudoKey: string) {
-    this.paymentService.comprar(conteudoKey, this.userAuth.uid);
+  async comprar(conteudo: ConteudoDb) {
+    this.paymentService.comprar(conteudo, this.userAuth.uid);
   }
 
   removeCompra(key: string) {
@@ -285,10 +299,15 @@ export class HomeService {
   }
 
   async deleteCurrentUser() {
+    this.authService.loadingUser = true;
+    await this.imagestorageService.deleteAllImagesInFolder(
+      `arquivos/${this.userAuth.email}`
+    );
     await this.limparComprasUsuario();
     await this.limparConteudosUsuario();
     await this.usuariosDbService.deleteUsuario(this.userAuth.uid);
     await this.authService.deleteCurrentUser();
+    this.authService.loadingUser = false;
   }
 
   async limparComprasUsuario(): Promise<void> {

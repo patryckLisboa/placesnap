@@ -3,45 +3,67 @@
     <h1>Assinantes</h1>
     <h2>{{ data?.titulo }}</h2>
   </div>
+
   <mat-dialog-content>
     <div *ngIf="homeService.permissaoUsuario == 2" class="users-container">
-      <div
-        class="user"
-        *ngFor="let compraUsuario of comprasUsuarios; let i = index"
-      >
-        <div><fa-icon class="user-icon" [icon]="faUserAlt"></fa-icon></div>
-        <div class="content-user">
-          <div
-            (mouseover)="showTooltip[i] = true"
-            (mouseout)="showTooltip[i] = false"  
-          >
-            <div class="hidden-text">
-              <b>
-                {{ compraUsuario.usuario.nome || compraUsuario.usuario.email }}
-              </b>
-            </div>
-            <div *ngIf="showTooltip[i]" class="tool-tip">
-              {{ compraUsuario.usuario.nome || compraUsuario.usuario.email }}
-            </div>
-          </div>
-
-          <div>
-            {{
-              formatarDataParaBrasileiro(
-                compraUsuario.compra.dataefetivacao || ""
-              )
-            }}
-          </div>
-        </div>
-        <button
-          class="delete-button"
-          mat-button
-          (click)="
-            removerCompraUsuarioConfirmacao(compraUsuario.compra.key || '')
+      <input
+        type="text"
+        [(ngModel)]="termoBusca"
+        placeholder="Buscar por nome ou email"
+        (input)="filtrarCompradores()"
+        maxlength="60"
+      />
+      <div class="block-content">
+        <div
+          class="user"
+          *ngFor="
+            let compraUsuario of (comprasUsuariosFiltrado.length || termoBusca)
+              ? comprasUsuariosFiltrado
+              : comprasUsuarios;
+            let i = index
           "
         >
-          <fa-icon class="delete-button-icon" [icon]="faXmark"></fa-icon>
-        </button>
+          <div class="user-icon">
+            <app-p-imageupload
+              [clickable]="false"
+              [initialUrl]="compraUsuario.usuario.foto_perfil || ''"
+            ></app-p-imageupload>
+          </div>
+          <div class="content-user">
+            <div
+              (mouseover)="showTooltip[i] = true"
+              (mouseout)="showTooltip[i] = false"
+            >
+              <div class="hidden-text">
+                <b>
+                  {{
+                    compraUsuario.usuario.nome || compraUsuario.usuario.email
+                  }}
+                </b>
+              </div>
+              <div *ngIf="showTooltip[i]" class="tool-tip">
+                {{ compraUsuario.usuario.nome || compraUsuario.usuario.email }}
+              </div>
+            </div>
+
+            <div>
+              {{
+                formatarDataParaBrasileiro(
+                  compraUsuario.compra.dataefetivacao || ""
+                )
+              }}
+            </div>
+          </div>
+          <button
+            class="delete-button"
+            mat-button
+            (click)="
+              removerCompraUsuarioConfirmacao(compraUsuario.compra.key || '')
+            "
+          >
+            <fa-icon class="delete-button-icon" [icon]="faXmark"></fa-icon>
+          </button>
+        </div>
       </div>
     </div>
   </mat-dialog-content>

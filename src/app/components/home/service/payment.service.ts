@@ -16,6 +16,7 @@ import {
   onSnapshot,
   doc,
   getDoc,
+  collection,
 } from 'firebase/firestore';
 import { getApp } from '@firebase/app';
 import { getStripePayments } from '@invertase/firestore-stripe-payments';
@@ -23,6 +24,7 @@ import { getProducts } from '@invertase/firestore-stripe-payments';
 import { initializeFirestore } from 'firebase/firestore';
 import { FirebaseApp } from '@angular/fire/app';
 import { FirestoreStripePaymentsService } from './firestore-stripe-payments.service';
+import { ZoopService } from './zooppayments.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +36,7 @@ export class PaymentService {
     private conteudoDbService: ConteudodbService,
     private messageService: PMessageService,
     private firestoreStripePaymentsService: FirestoreStripePaymentsService,
-
+    private zoopService: ZoopService
   ) {}
 
   async comprar(conteudo: ConteudoDb, userId: string) {
@@ -44,7 +46,7 @@ export class PaymentService {
     } as CompraDb);
 
     if (!conteudo.key || !compraKey) {
-      return this.messageService.showErrorMessage('algo deu errado');
+      return this.messageService.showErrorMessage('Algo deu errado');
     }
 
     const compraconteudo: any =
@@ -55,72 +57,44 @@ export class PaymentService {
       } as ConteudocompraDb);
 
     if (compraconteudo) {
-      this.messageService.showSuccessMessage('abrir parte da compra');
+      this.messageService.showSuccessMessage('Redirecionando para a página de pagamento...');
       await this.processarCompra(conteudo, userId);
-      // await this.pagarCompra(conteudo, userId); //atualizar a data de efetivação da compra
     }
   }
-
+  
+  async confirmacaoPagamento(conteudo: ConteudoDb, userId: string) {
+    //manipulações para mudar status de pagamento do conetudo e efetivação e etc...
+  }
 
   async processarCompra(conteudo: ConteudoDb, userId: string) {
-    return
-
+    if(conteudo.valor || 0 < 1){
+      return this.messageService.showErrorMessage("Por enquanto só permitimos compras acima de R$ 1,00");
+    }
     try {
-      // Criar um cliente no Stripe com o email do usuário
-      await this.firestoreStripePaymentsService.createCheckoutSession('price_1OymAK2MC6fK0Zr2s3O4rDs7');
-      
-      // await addDoc(collection(firestore, 'customers', userId, 'checkout_sessions'), {
-      //   session_id: checkoutSessionId,
-      //   price: precoId,
-      //   success_url: returnUrl,
-      //   cancel_url: returnUrl,
-      // });
-
-      // // Agora, você deve redirecionar o usuário para a URL de checkout do Stripe
-      // // A URL está disponível em checkoutSessionResponse.url
-      // // O usuário será redirecionado para esta URL para finalizar o pagamento
-
+      await this.firestoreStripePaymentsService.pagarCompra(conteudo, userId);
     } catch (error) {
-      console.error('Erro ao processar compra:', error);
-      this.messageService.showErrorMessage('Erro ao processar compra');
+      this.messageService.showErrorMessage('Erro ao processar pagamento');
     }
   }
 
-  // async pagarCompra(conteudo: ConteudoDb, userId: string) {
-  //   console.log(userId);
-  //   const db = getFirestore();
-  //   const checkoutSessionRef = collection(
-  //     db,
-  //     'customers',
-  //     userId,
-  //     'checkout_sessions'
-  //   );
+  async iniciarCheckoutPIX() {
+    try {
+      const amount = 100; // Valor em reais
+      const description = 'Descrição do pagamento PIX';
+      const status = await this.zoopService.createCheckoutSession(amount, description);
 
-  //   console.log(checkoutSessionRef);
-  //   const docRef = await addDoc(checkoutSessionRef, {
-  //     price: 'price_1OymAK2MC6fK0Zr2s3O4rDs7',
-  //     success_url: window.location.origin,
-  //     cancel_url: window.location.origin,
-  //   });
-  //   return new Promise<string>((resolve, reject) => {
-  //     const unsubscribe = onSnapshot(docRef, (snap) => {
-  //       debugger;
-  //       const { error, url } = snap.data() as {
-  //         error?: { message: string };
-  //         url?: string;
-  //       };
-  //       if (url) {
-  //         console.log('Stripe Checkout URL:', url);
-  //         unsubscribe();
-  //         resolve(url);
-  //       }
-  //       if (error) {
-  //         unsubscribe();
-  //         reject(new Error(`An error occurred: ${error.message}`));
-  //       }
-  //     });
-  //   });
-  // }
+      // Redirecionar o usuário com base no status da transação
+      if (status === 'success') {
+        window.location.href = '/sucesso'; // Redirecionar para página de sucesso
+      } else if (status === 'cancelled') {
+        window.location.href = '/cancelamento'; // Redirecionar para página de cancelamento
+      } else {
+        console.log('Pagamento pendente ou em outro estado.');
+      }
+    } catch (error) {
+      console.error('Erro ao iniciar o checkout PIX:', error);
+    }
+  }
 
   async cancelarCompra(compraKey: string | null) {
     console.log(compraKey);

@@ -67,7 +67,7 @@ export class PaymentService {
   }
 
   async processarCompra(conteudo: ConteudoDb, userId: string) {
-    if(conteudo.valor || 0 < 1){
+    if((conteudo.valor || 0) < 1){
       return this.messageService.showErrorMessage("Por enquanto só permitimos compras acima de R$ 1,00");
     }
     try {
